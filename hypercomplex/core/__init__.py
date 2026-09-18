@@ -1,2 +1,3 @@
 from .CDTableBuilder import CDTableBuilder
 from .Basis_notation import BasisNotation
+from .holographic_multiplier import HolographicMultiplier
