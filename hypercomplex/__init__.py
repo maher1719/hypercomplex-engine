@@ -18,7 +18,7 @@ from .core import (
 )
 
 
-from .printer import CDTablePrinter
+from .printer import CDTableFormat, CDTablePrinter
 
 
 __version__ = "0.2.0"
@@ -33,5 +33,6 @@ __all__ = [
     "StandardHolographic",
     "SplitHolographic",
     "DualHolographic",
+    "CDTableFormat",
     "CDTablePrinter",
 ]
