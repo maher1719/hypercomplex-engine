@@ -67,3 +67,4 @@ class CDTablePrinter:
                         f.write(line + "\n")
             else:
                 raise ValueError("csv_mode must be 'matrix' or 'long'")
+        print(f"File succufuly generated with path: {path}")
