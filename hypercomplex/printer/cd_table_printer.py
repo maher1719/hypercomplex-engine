@@ -1,9 +1,5 @@
-try:
-    # If your file is named Basis_notation.py
-    from ..core.Basis_notation import BasisNotation
-except ImportError:
-    # If you renamed it to basis_notation.py
-    from ..core.basis_notation import BasisNotation
+from ..core.basis_notation import BasisNotation
+
 
 
 class CDTablePrinter:

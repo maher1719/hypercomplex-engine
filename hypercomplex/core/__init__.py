@@ -1,5 +1,5 @@
 from .basis_element import BasisElement
-from .Basis_notation import BasisNotation
+from .basis_notation import BasisNotation
 from .validation import Validation
 
 from .table_builder import (
