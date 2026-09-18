@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hypercomplex"
+version = "0.1.0"
+authors = [
+  { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
+]
+description = "Fast O(1)/O(n) hypercomplex multiplication engine and table generator for ordinary, split, dual, and Cayley-Dickson algebras."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20.0"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/maher1719/hypercomplex-engine"
+"Repository" = "https://github.com/maher1719/hypercomplex-engine"
