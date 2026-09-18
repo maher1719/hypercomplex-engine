@@ -1,7 +1,7 @@
-from .cd_table_format import CDTableFormat
+from .cd_format import CDFormat
 from .cd_table_printer import CDTablePrinter
 
 __all__ = [
-    "CDTableFormat",
+    "CDFormat",
     "CDTablePrinter",
 ]

@@ -1,4 +1,4 @@
-from .cd_table_format import CDTableFormat
+from .cd_format import CDFormat
 
 
 class CDTablePrinter:
