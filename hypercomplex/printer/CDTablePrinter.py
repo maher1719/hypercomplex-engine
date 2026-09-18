@@ -1,5 +1,5 @@
 import numpy as np
-from hypercomplex.core import Basis_notation
+from ..core.Basis_notation import BasisNotation
 
 
 
