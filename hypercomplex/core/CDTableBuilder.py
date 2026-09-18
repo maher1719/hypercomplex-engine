@@ -99,64 +99,43 @@ class CDTableBuilder:
         Split Cayley–Dickson algebra of dimension 2^n.
         OPMT Theorem 2.1 (split sign law).
 
-        Uses the split doubling formula: (a,b)(c,d) = (ac + d*b, da + bc*).
-        The ONLY difference from standard is Block d:
-          - Block d interior sign = +σ_a (not -σ_a).
-          - Block d structured signs are inverted vs standard.
-        Blocks a, b, c are identical to the standard construction.
+        Constructed as: STANDARD parent A_{n-1} + ONE split doubling.
+        The parent is the standard algebra (e_i^2 = -e_0 for i>0).
+        Only the final doubling uses the split formula (ac + d*b, ...).
         """
-        signs = np.array([[1]], dtype=np.int8)
-        indices = np.array([[0]], dtype=np.int64)
+        if n == 0:
+            return np.array([[1]], dtype=np.int8), np.array([[0]], dtype=np.int64)
 
-        for _ in range(1, n + 1):
-            half = signs.shape[0]
-            full = 2 * half
-            new_signs = np.zeros((full, full), dtype=np.int8)
-            new_indices = np.zeros((full, full), dtype=np.int64)
+        # Step 1: Build the STANDARD parent A_{n-1}
+        signs, indices = CDTableBuilder.standard(n - 1)
 
-            # ------------------------------------------------------------------
-            # BLOCK A: inherits parent (identical to standard).
-            # OPMT Theorem 2.1, Eq. (5).
-            # ------------------------------------------------------------------
-            new_signs[:half, :half] = signs
-            new_indices[:half, :half] = indices
+        # Step 2: Apply ONE split doubling
+        half = signs.shape[0]
+        full = 2 * half
+        new_signs = np.zeros((full, full), dtype=np.int8)
+        new_indices = np.zeros((full, full), dtype=np.int64)
 
-            # ------------------------------------------------------------------
-            # BLOCK B: (e_i, 0)(0, e_j) = (0, e_j e_i)
-            # OPMT Theorem 2.1, Eq. (6): identical to standard Block b.
-            # ------------------------------------------------------------------
-            new_signs[:half, half:] = signs.T
-            new_indices[:half, half:] = indices.T + half
+        # Block a: inherit the standard parent
+        new_signs[:half, :half] = signs
+        new_indices[:half, :half] = indices
 
-            # ------------------------------------------------------------------
-            # BLOCK C: (0, e_i)(e_j, 0) = (0, e_i e_j*)
-            # OPMT Theorem 2.1, Eq. (7): identical to standard Block c.
-            # Conjugation flips columns j>0.
-            # ------------------------------------------------------------------
-            s_ll = signs.copy()
-            s_ll[:, 1:] = -s_ll[:, 1:]  # conjugation: flip columns j>0
-            new_signs[half:, :half] = s_ll
-            new_indices[half:, :half] = indices + half
+        # Block b: (e_i,0)(0,e_j) = (0, e_j e_i) — same as standard
+        new_signs[:half, half:] = signs.T
+        new_indices[:half, half:] = indices.T + half
 
-            # ------------------------------------------------------------------
-            # BLOCK D: (0, e_i)(0, e_j) = (+e_j* e_i, 0)
-            # OPMT Theorem 2.1, Eq. (8): the KEY DIFFERENCE from standard.
-            # The split doubling has +d*b instead of -d*b, so there is NO
-            # leading negation. We start with +signs.T (not -signs.T).
-            # Conjugation still flips columns j>0.
-            # Result: diagonal always +1, first col +1, first row (j>0) -1,
-            # interior = +σ_a. This is the complete sign inversion of Block d
-            # relative to standard, per Corollary 3.10.1.
-            # ------------------------------------------------------------------
-            s_lr = signs.T.copy()
-            s_lr[:, 1:] = -s_lr[:, 1:]  # conjugation: flip columns j>0
-            new_signs[half:, half:] = s_lr
-            new_indices[half:, half:] = indices.T
+        # Block c: (0,e_i)(e_j,0) = (0, e_i e_j*) — same as standard
+        s_ll = signs.copy()
+        s_ll[:, 1:] = -s_ll[:, 1:]
+        new_signs[half:, :half] = s_ll
+        new_indices[half:, :half] = indices + half
 
-            signs, indices = new_signs, new_indices
+        # Block d: (0,e_i)(0,e_j) = (e_j* e_i, 0) — SPLIT (no leading negation)
+        s_lr = signs.T.copy()
+        s_lr[:, 1:] = -s_lr[:, 1:]
+        new_signs[half:, half:] = s_lr
+        new_indices[half:, half:] = indices.T
 
-        return signs, indices
-
+        return new_signs, new_indices
     @staticmethod
     def dual(n: int, split: bool = False):
         """

@@ -1,9 +1,9 @@
 ,1,o1,o2,o12,eps,o1*eps,o2*eps,o12*eps
 1,+1,+o1,+o2,+o12,+eps,+o1*eps,+o2*eps,+o12*eps
-o1,+o1,+1,+o12,+o2,+o1*eps,+eps,+o12*eps,+o2*eps
+o1,+o1,-1,+o12,-o2,+o1*eps,-eps,+o12*eps,-o2*eps
 o2,+o2,-o12,+1,-o1,+o2*eps,-o12*eps,+eps,-o1*eps
-o12,+o12,-o2,+o1,-1,+o12*eps,-o2*eps,+o1*eps,-eps
+o12,+o12,+o2,+o1,+1,+o12*eps,+o2*eps,+o1*eps,+eps
 eps,+eps,+o1*eps,+o2*eps,+o12*eps,0,0,0,0
-o1*eps,+o1*eps,+eps,+o12*eps,+o2*eps,0,0,0,0
+o1*eps,+o1*eps,-eps,+o12*eps,-o2*eps,0,0,0,0
 o2*eps,+o2*eps,-o12*eps,+eps,-o1*eps,0,0,0,0
-o12*eps,+o12*eps,-o2*eps,+o1*eps,-eps,0,0,0,0
+o12*eps,+o12*eps,+o2*eps,+o1*eps,+eps,0,0,0,0
