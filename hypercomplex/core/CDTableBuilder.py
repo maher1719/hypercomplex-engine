@@ -14,53 +14,36 @@ class CDTableBuilder:
     def standard(n):
         signs = np.array([[1]], dtype=np.int8)
         indices = np.array([[0]], dtype=np.int64)
-
+        
         for _ in range(1, n + 1):
             half = signs.shape[0]
             full = 2 * half
-
             new_signs = np.zeros((full, full), dtype=np.int8)
             new_indices = np.zeros((full, full), dtype=np.int64)
-
-            for i in range(full):
-                for j in range(full):
-                    row_high = i >= half
-                    col_high = j >= half
-
-                    li = i % half
-                    lj = j % half
-
-                    if not row_high and not col_high:
-                        new_signs[i, j] = signs[li, lj]
-                        new_indices[i, j] = indices[li, lj]
-
-                    elif not row_high and col_high:
-                        new_signs[i, j] = signs[lj, li]
-                        new_indices[i, j] = indices[lj, li] + half
-
-                    elif row_high and not col_high:
-                        s = signs[li, lj]
-
-                        if lj > 0:
-                            s = -s
-
-                        new_signs[i, j] = s
-                        new_indices[i, j] = indices[li, lj] + half
-
-                    else:
-                        s = signs[lj, li]
-
-                        if lj > 0:
-                            s = -s
-
-                        new_signs[i, j] = -s
-                        new_indices[i, j] = indices[lj, li]
-
-            signs = new_signs
-            indices = new_indices
-
+            
+            # Upper-Left Block (li, lj)
+            new_signs[:half, :half] = signs
+            new_indices[:half, :half] = indices
+            
+            # Upper-Right Block (lj, li) + half
+            new_signs[:half, half:] = signs.T
+            new_indices[:half, half:] = indices.T + half
+            
+            # Lower-Left Block (li, lj) with sign flipping for lj > 0
+            s_ll = signs.copy()
+            s_ll[:, 1:] = -s_ll[:, 1:]  # Flip signs where col index (j) > 0
+            new_signs[half:, :half] = s_ll
+            new_indices[half:, :half] = indices + half
+            
+            # Lower-Right Block (lj, li) with systematic sign flipping
+            s_lr = -signs.T
+            s_lr[:, 1:] = -s_lr[:, 1:]  # FIX: Flip signs where col index (j) > 0
+            new_signs[half:, half:] = s_lr
+            new_indices[half:, half:] = indices.T
+            
+            signs, indices = new_signs, new_indices
+            
         return signs, indices
-
     @staticmethod
     def split(n):
         if n == 0:
