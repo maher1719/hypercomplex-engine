@@ -51,6 +51,7 @@ from hypercomplex import (
 # 1. BASIS NOTATION
 # ======================================================================
 
+
 class TestBasisNotation:
     """Integer ↔ graded ↔ LaTeX round-trips."""
 
