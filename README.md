@@ -52,13 +52,13 @@ cd hypercomplex-engine
 Install with pip:
 
 ```bash
-pip install hypercomplex-engine .
+pip install hypercomplex-engine
 ```
 
 Install in editable mode:
 
 ```bash
-pip install -e .
+pip install -e
 ```
 
 Run the tests:
