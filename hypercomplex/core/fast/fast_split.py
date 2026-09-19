@@ -31,8 +31,8 @@ class FastSplit:
         t2 = (sign2, index2)
 
         dim:
-            Algebra exponent.
-            If None, it is inferred from the indices.
+            Algebra exponent (required; the result depends on it,
+            e.g. e2*e2 is +1 at dim=2 but -1 at dim>=3).
 
         Returns:
             (final_sign, index1 XOR index2)

@@ -89,7 +89,6 @@ def _normalize_engine(engine: str) -> str:
     aliases = {
         "fast": "fast",
         "constant": "fast",
-        "fast": "fast",
         "bitwise": "fast",
         "o1":"fast",
 
@@ -254,11 +253,17 @@ def multiply(
         "holographic" O(n) descent, useful for verification
 
     dim:
-        Required for dual and dual_split.
-        Optional for split.
+        Required for split, dual and dual_split.
+        Not used for standard.
     """
     kind = _normalize_kind(kind)
     engine = _normalize_engine(engine)
+
+    # dim is part of the algebra's identity for split/dual kinds (e.g. e2*e2 is
+    # +e0 in split dim=2 but -e0 for every larger split algebra), so it is
+    # required, never inferred. Validate before anything else.
+    if kind in ("split", "dual", "dual_split") and dim is None:
+        raise ValueError(f"dim is required for {kind} multiplication")
 
     # Zero propagation
     if int(a[0]) == 0 or int(b[0]) == 0:
@@ -267,10 +272,7 @@ def multiply(
         return (0, 0)
 
     # Dual inputs may be local 3-tuples: (sign, local_index, eps)
-    if kind in ("split","dual", "dual_split"):
-        if dim is None:
-            raise ValueError("dim is required for dual multiplication")
-
+    if kind in ("dual", "dual_split"):
         a = _as_dual_global(a, dim)
         b = _as_dual_global(b, dim)
 
@@ -298,8 +300,6 @@ def multiply(
             return _standard_holo.multiply(a, b)
 
         if kind == "split":
-            if dim is None:
-                dim = max(int(a[1]), int(b[1])).bit_length()
             return _split_holo.multiply(a, b, dim)
 
         if kind == "dual":
