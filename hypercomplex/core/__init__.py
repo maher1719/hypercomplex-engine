@@ -14,14 +14,26 @@ from .holographic import (
     DualHolographic,
 )
 
+from .fast import (
+    FastStandard,
+    FastSplit,
+    FastDual,
+)
+
 __all__ = [
     "BasisElement",
     "BasisNotation",
     "Validation",
+
     "StandardTableBuilder",
     "SplitTableBuilder",
     "DualTableBuilder",
+
     "StandardHolographic",
     "SplitHolographic",
     "DualHolographic",
+
+    "FastStandard",
+    "FastSplit",
+    "FastDual",
 ]

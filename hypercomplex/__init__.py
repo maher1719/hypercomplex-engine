@@ -1,4 +1,3 @@
-# Simple user-facing API
 from .facade import (
     build_table,
     multiply,
@@ -7,33 +6,28 @@ from .facade import (
     export_csv,
 )
 
-# Core notation / validation / elements
 from .core import (
     BasisElement,
     BasisNotation,
     Validation,
-)
 
-# Table builders
-from .core import (
     StandardTableBuilder,
     SplitTableBuilder,
     DualTableBuilder,
-)
 
-# Holographic multipliers
-from .core import (
     StandardHolographic,
     SplitHolographic,
     DualHolographic,
+
+    FastStandard,
+    FastSplit,
+    FastDual,
 )
 
-# Printer / formatter
 from .printer import (
     CDFormat,
     CDTablePrinter,
 )
-
 
 __all__ = [
     # Simple API
@@ -53,10 +47,15 @@ __all__ = [
     "SplitTableBuilder",
     "DualTableBuilder",
 
-    # Holographic multipliers
+    # Holographic O(n)
     "StandardHolographic",
     "SplitHolographic",
     "DualHolographic",
+
+    # O(1)
+    "FastStandard",
+    "FastSplit",
+    "FastDual",
 
     # Printer / formatter
     "CDFormat",
