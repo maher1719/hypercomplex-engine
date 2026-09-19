@@ -162,8 +162,8 @@ class FastDual:
         if j < 0 or j >= total:
             raise ValueError(f"index must be in [0, {total - 1}] for dual dim={dim}, got {j}")
 
-        i_eps = i >= half 
-        j_eps = j >= half 
+        i_eps = i >= half or i_eps_flag
+        j_eps = j >= half or j_eps_flag
 
         i_loc = i & (half - 1)
         j_loc = j & (half - 1)
