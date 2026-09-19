@@ -1,38 +1,64 @@
-"""
-Hypercomplex: table generator 
-for ordinary, split, dual, and Cayley-Dickson algebras.
-"""
+# Simple user-facing API
+from .facade import (
+    build_table,
+    multiply,
+    format_element,
+    print_table,
+    export_csv,
+)
 
-
-
+# Core notation / validation / elements
 from .core import (
     BasisElement,
-    Basis_notation,
+    BasisNotation,
     Validation,
+)
+
+# Table builders
+from .core import (
     StandardTableBuilder,
     SplitTableBuilder,
     DualTableBuilder,
+)
+
+# Holographic multipliers
+from .core import (
     StandardHolographic,
     SplitHolographic,
     DualHolographic,
 )
 
+# Printer / formatter
+from .printer import (
+    CDFormat,
+    CDTablePrinter,
+)
 
-from .printer import CDFormat, CDTablePrinter
-
-
-__version__ = "0.2.0"
 
 __all__ = [
+    # Simple API
+    "build_table",
+    "multiply",
+    "format_element",
+    "print_table",
+    "export_csv",
+
+    # Core
     "BasisElement",
-    "Basis_notation",
+    "BasisNotation",
     "Validation",
+
+    # Table builders
     "StandardTableBuilder",
     "SplitTableBuilder",
     "DualTableBuilder",
+
+    # Holographic multipliers
     "StandardHolographic",
     "SplitHolographic",
     "DualHolographic",
+
+    # Printer / formatter
     "CDFormat",
     "CDTablePrinter",
 ]
