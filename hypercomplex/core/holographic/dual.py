@@ -46,9 +46,10 @@ class DualHolographic:
 
         dim = Validation.dimension(dim)
 
-        s1, i, i_eps_flag = int(t1[0]), int(t1[1]), int(t1[2])
-        s2, j, j_eps_flag = int(t2[0]), int(t2[1]), int(t2[2])
-
+        s1, i = int(t1[0]), int(t1[1])
+        s2, j = int(t2[0]), int(t2[1])
+        i_eps_flag = int(t1[2]) if len(t1) == 3 else 0
+        j_eps_flag = int(t2[2]) if len(t2) == 3 else 0
         # Zero propagates.
         if s1 == 0 or s2 == 0:
             return (0, 0, 0)

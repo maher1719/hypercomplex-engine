@@ -264,6 +264,11 @@ def multiply(
     # required, never inferred. Validate before anything else.
     if kind in ("split", "dual", "dual_split") and dim is None:
         raise ValueError(f"dim is required for {kind} multiplication")
+        # Validate inputs before any early return, so malformed data always
+        # raises ValidationError instead of leaking TypeError/IndexError.
+    allow_eps = kind in ("dual", "dual_split")
+    Validation.basis_tuple(a, allow_zero=True, allow_eps=allow_eps)
+    Validation.basis_tuple(b, allow_zero=True, allow_eps=allow_eps)
 
     # Zero propagation
     if int(a[0]) == 0 or int(b[0]) == 0:

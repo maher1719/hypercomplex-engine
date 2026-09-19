@@ -125,18 +125,24 @@ class FastDual:
             (final_sign, local_index, eps_flag)
         """
         dim = Validation.dimension(dim)
+        Validation.basis_tuple(t1, allow_zero=True, allow_eps=True)
+        Validation.basis_tuple(t2, allow_zero=True, allow_eps=True)
 
-        s1, i = self._extract_global(t1, dim)
-        s2, j = self._extract_global(t2, dim)
+        
+
+        s1, i = int(t1[0]), int(t1[1])
+        s2, j = int(t2[0]), int(t2[1])
+        i_eps_flag = int(t1[2]) if len(t1) == 3 else 0
+        j_eps_flag = int(t2[2]) if len(t2) == 3 else 0
 
         if s1 == 0 or s2 == 0:
             return (0, 0, 0)
 
-        sign, idx, eps = self.multiply_indices(i, j, dim)
+        sign, idx, eps = self.multiply_indices(i, j,dim,i_eps_flag,j_eps_flag)
 
         return (s1 * s2 * sign, idx, eps)
 
-    def multiply_indices(self, i: int, j: int, dim: int) -> tuple:
+    def multiply_indices(self, i: int, j: int,dim:int, i_eps_flag=0 ,j_eps_flag=0) -> tuple:
         """
         Core dual O(1) multiplication using global indices.
 
@@ -156,8 +162,8 @@ class FastDual:
         if j < 0 or j >= total:
             raise ValueError(f"index must be in [0, {total - 1}] for dual dim={dim}, got {j}")
 
-        i_eps = i >= half
-        j_eps = j >= half
+        i_eps = i >= half 
+        j_eps = j >= half 
 
         i_loc = i & (half - 1)
         j_loc = j & (half - 1)
