@@ -172,7 +172,7 @@ def build_table(kind: str, n: int):
         return _standard_table.build(n)
 
     if kind == "split":
-        return _split_table.build(n)
+        return _split_table.build(n,split=True)
 
     if kind == "dual":
         return _dual_table.build(n, split=False)
