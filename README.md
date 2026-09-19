@@ -1,5 +1,8 @@
 # hypercomplex-engine
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Tests](https://img.shields.io/badge/tests-62%20passed-success)](#)
 
 Fast, validated multiplication and table generation for Cayley–Dickson algebras.
 
@@ -14,9 +17,7 @@ This library provides:
 - Direct low-level classes for advanced use.
 
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/tests-62%20passed-success)](#)
+
 
 Fast, validated multiplication and table generation for Cayley–Dickson algebras.
 
