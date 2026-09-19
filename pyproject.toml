@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypercomplex-engine" 
-version = "1.0.3.3"
+version = "1.0.3.4"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
 description = "Fast O(1)/O(n) multiplication engine and table generator for ordinary, split, and dual Cayley-Dickson algebras."
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.20.0"
 ]
