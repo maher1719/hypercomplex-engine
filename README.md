@@ -442,7 +442,7 @@ print(result)
 |---|---|
 | `"integer"` | `+e5` |
 | `"graded"` | `+o13` |
-| `"latex"` | `+o_{13}` |
+| `"latex"` | `+e_{13}` |
 | `"latex_integer"` | `+e_{5}` |
 | `"latex_graded"` | `+o_{13}` |
 
@@ -458,6 +458,9 @@ print(format_element(element, mode="integer"))
 
 print(format_element(element, mode="graded"))
 # -o13
+
+print(format_element(element, mode="latex"))
+# -e_{5}
 
 print(format_element(element, mode="latex_integer"))
 # -e_{5}
