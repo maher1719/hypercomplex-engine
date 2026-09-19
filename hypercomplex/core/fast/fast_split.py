@@ -23,7 +23,7 @@ class FastSplit:
     def __init__(self):
         self._standard = FastStandard()
 
-    def multiply(self, t1: tuple, t2: tuple, dim: int | None = None) -> tuple:
+    def multiply(self, t1: tuple, t2: tuple, dim: int) -> tuple:
         """
         Multiply two split basis element tuples.
 
@@ -46,10 +46,8 @@ class FastSplit:
         if s1 == 0 or s2 == 0:
             return (0, 0)
 
-        if dim is None:
-            dim = max(i, j).bit_length()
-        else:
-            dim = Validation.dimension(dim)
+        
+        dim = Validation.dimension(dim)
 
         Validation.index_in_range(i, dim)
         Validation.index_in_range(j, dim)
