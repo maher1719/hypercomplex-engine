@@ -9,7 +9,7 @@ class CDTablePrinter:
         - terminal printing
         - CSV export
 
-    All formatting is delegated to CDTableFormat.
+    All formatting is delegated to CDFormat.
     """
 
     @staticmethod
@@ -45,7 +45,7 @@ class CDTablePrinter:
         mode:
             integer, graded, latex, latex_integer, latex_graded
         """
-        CDTableFormat.validate_mode(mode)
+        CDFormat.validate_mode(mode)
 
         dim = signs.shape[0]
         lim = dim if limit is None else min(limit, dim)
@@ -55,7 +55,7 @@ class CDTablePrinter:
 
         dual = eps is not None
 
-        labels = CDTableFormat.basis_labels(
+        labels = CDFormat.basis_labels(
             dim,
             dual=dual,
             mode=mode,
@@ -70,7 +70,7 @@ class CDTablePrinter:
                 e = 0 if eps is None else int(eps[i, j])
 
                 row.append(
-                    CDTableFormat.format_entry(
+                    CDFormat.format_entry(
                         int(signs[i, j]),
                         int(indices[i, j]),
                         e,
@@ -142,7 +142,7 @@ class CDTablePrinter:
                 One row per product:
                     i,j,sign,index[,eps]
         """
-        CDTableFormat.validate_mode(mode)
+        CDFormat.validate_mode(mode)
 
         if csv_mode not in ("matrix", "long"):
             raise ValueError("csv_mode must be 'matrix' or 'long'")
@@ -153,7 +153,7 @@ class CDTablePrinter:
         with open(path, "w", newline="", encoding="utf-8") as f:
 
             if csv_mode == "matrix":
-                labels = CDTableFormat.basis_labels(
+                labels = CDFormat.basis_labels(
                     dim,
                     dual=dual,
                     mode=mode,
@@ -169,7 +169,7 @@ class CDTablePrinter:
                         e = 0 if eps is None else int(eps[i, j])
 
                         cells.append(
-                            CDTableFormat.format_entry(
+                            CDFormat.format_entry(
                                 int(signs[i, j]),
                                 int(indices[i, j]),
                                 e,

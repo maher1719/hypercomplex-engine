@@ -67,7 +67,7 @@ class CDFormat:
             return BasisNotation.to_graded_str(index)
 
         if mode == "latex":
-            return BasisNotation.to_latex(index, mode="graded")
+            return BasisNotation.to_latex(index, mode="integer")
 
         if mode == "latex_integer":
             return BasisNotation.to_latex(index, mode="integer")

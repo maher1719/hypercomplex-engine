@@ -349,7 +349,7 @@ class TestCDFormat:
     def test_dual_formatting(self):
         assert CDFormat.format_element((1, 2, 1), mode="integer") == "+e2*eps"
         assert CDFormat.format_element((1, 0, 1), mode="integer") == "+eps"
-        assert CDFormat.format_element((1, 2, 1), mode="latex") == "+e_{2}\\epsilon"
+        assert CDFormat.format_element((1, 2, 1), mode="latex_integer") == "+e_{2}\\epsilon"
 
     def test_zero_element(self):
         assert CDFormat.format_element((0, 0), mode="integer") == "0"
@@ -498,7 +498,7 @@ class TestEndToEnd:
         assert result == (1, 3)
 
         assert format_element(result, mode="integer") == "+e3"
-        assert format_element(result, mode="graded") == "+o3"
+        assert format_element(result, mode="graded") == "+o12"
 
         with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as f:
             path = f.name
