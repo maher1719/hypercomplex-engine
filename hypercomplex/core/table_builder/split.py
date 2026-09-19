@@ -99,3 +99,4 @@ class SplitTableBuilder:
         indices[half:, half:] = parent_indices.T
 
         return signs, indices
+        
