@@ -48,6 +48,11 @@ Clone the repository:
 git clone https://github.com/maher1719/hypercomplex-engine.git
 cd hypercomplex-engine
 ```
+Install with pip:
+
+```bash
+pip install hypercomplex-engine .
+```
 
 Install in editable mode:
 
