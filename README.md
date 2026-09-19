@@ -906,8 +906,6 @@ Run specific test files:
 ```bash
 pytest tests/test_mega_mother.py -v
 pytest tests/test_fast_mode.py -v
-pytest tests/test_holographic_vs_table.py -v
-pytest tests/test_algebra.py -v
 ```
 
 The test suite validates:
