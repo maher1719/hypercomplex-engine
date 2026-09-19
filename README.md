@@ -1,6 +1,5 @@
 # hypercomplex-engine
 
-# Hypercomplex Engine
 
 Fast, validated multiplication and table generation for Cayley–Dickson algebras.
 
@@ -13,6 +12,33 @@ This library provides:
 - CSV export for tables.
 - A simple facade API for everyday use.
 - Direct low-level classes for advanced use.
+
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Tests](https://img.shields.io/badge/tests-62%20passed-success)](#)
+
+Fast, validated multiplication and table generation for Cayley–Dickson algebras.
+
+This library provides the computational substrate for high-dimensional hypercomplex algebra, featuring:
+
+- **Full multiplication table generation** for standard, split, and dual algebras.
+- **O(n) holographic** table-free recursive descent multiplication.
+- **O(1) fast bitwise** closed-form multiplication.
+- **Integer, graded, and LaTeX** notation formatting.
+- **CSV export** for tables (matrix and long formats).
+- A **simple facade API** for everyday use, and direct low-level classes for advanced physics/math engines.
+
+---
+
+## 📄 Publications & Preprints
+
+This library serves as the formal verification substrate and computational engine for the following mathematical preprints:
+
+**1. The Sign Structure of Cayley–Dickson and Split Algebras By Blocks**
+*Proves the OPMT (Ordered-Pair Multiplication Table) sign laws, block decomposition, and the O(1) closed-form sign evaluator implemented in the `fast` engine of this library.*
+* 📊 **Figshare:** [10.6084/m9.figshare.33705022](https://doi.org/10.6084/m9.figshare.33705022)
+* 📦 **Zenodo:** [10.5281/zenodo.22051873](https://doi.org/10.5281/zenodo.22051873)
 
 ---
 
@@ -969,19 +995,18 @@ hypercomplex-engine/
 
 ---
 
-# Related Mathematical Work
+# Citation
 
-This engine implements computational structures related to:
+If you use this engine in your research, physics simulations, or geometric deep learning models, please cite the underlying theoretical preprints:
 
-```text
-The Sign Structure of Cayley–Dickson and Split Algebras by Blocks
-```
+```bibtex
+@article{benabdessalem2026sign,
+  title={The Sign Structure of Cayley-Dickson and Split Algebras By Blocks},
+  author={Ben Abdessalem, Maher},
+  year={2026},
+  doi={10.6084/m9.figshare.33705022}
+}
 
-and can be used as a multiplication substrate for applications such as:
-
-```text
-A Universal Exponential Law for Real Alternative Algebras
-and its Geometric Applications
 ```
 
 ---
