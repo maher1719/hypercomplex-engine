@@ -267,7 +267,7 @@ def multiply(
         return (0, 0)
 
     # Dual inputs may be local 3-tuples: (sign, local_index, eps)
-    if kind in ("dual", "dual_split"):
+    if kind in ("split","dual", "dual_split"):
         if dim is None:
             raise ValueError("dim is required for dual multiplication")
 
