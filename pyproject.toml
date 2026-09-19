@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypercomplex-engine" 
-version = "1.0.3.4"
+version = "1.0.4"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
@@ -20,7 +20,7 @@ keywords = [
     "split-algebra", "math", "physics", "geometry"
 ]
 classifiers = [
-    "Development Status ::4 - Beta",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Scientific/Engineering :: Physics",
