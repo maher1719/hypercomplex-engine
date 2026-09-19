@@ -193,7 +193,7 @@ print(format_element(result, mode="graded"))
 # +o12
 
 print(format_element(result, mode="latex"))
-# +o_{12}
+# +e_{12}
 ```
 
 Note:
@@ -987,11 +987,13 @@ hypercomplex-engine/
 If you use this engine in your research, physics simulations, or geometric deep learning models, please cite the underlying theoretical preprints:
 
 ```bibtex
-@article{benabdessalem2026sign,
-  title={The Sign Structure of Cayley-Dickson and Split Algebras By Blocks},
-  author={Ben Abdessalem, Maher},
-  year={2026},
-  doi={10.6084/m9.figshare.33705022}
+@article{ben abdessalem2026,
+author = "maher ben abdessalem",
+title = "{A Proven Sign Law for Cayley-Dickson Algebras: Ordinary, Split, dual Constructions and their computational proofs and implementations}",
+year = "2026",
+month = "9",
+url = "https://figshare.com/articles/preprint/A_Proven_Sign_Law_for_Cayley-Dickson_Algebras_Ordinary_and_Split_Constructions/33705022",
+doi = "10.6084/m9.figshare.33705022.v5"
 }
 
 ```
