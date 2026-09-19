@@ -4,20 +4,6 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-62%20passed-success)](#)
 
-Fast, validated multiplication and table generation for Cayley–Dickson algebras.
-
-This library provides:
-
-- Full multiplication table generation for standard, split, and dual algebras.
-- O(n) holographic table-free multiplication.
-- O(1) fast bitwise multiplication.
-- Integer, graded, and LaTeX notation formatting.
-- CSV export for tables.
-- A simple facade API for everyday use.
-- Direct low-level classes for advanced use.
-
-
-
 
 Fast, validated multiplication and table generation for Cayley–Dickson algebras.
 
