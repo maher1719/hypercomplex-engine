@@ -1,5 +1,6 @@
 # hypercomplex-engine
 
+# Hypercomplex Engine
 
 Fast, validated multiplication and table generation for Cayley–Dickson algebras.
 
@@ -398,5 +399,599 @@ Split:
 fast_split = FastSplit()
 
 result = fast_split.multiply((1, 2), (1, 2), dim=2)
+
+print(result)
+# (1, 0)
+```
+
+Dual:
+
+```python
+fast_dual = FastDual(split=False)
+
+result = fast_dual.multiply((1, 0), (1, 0, 1), dim=1)
+
+print(result)
+# (1, 0, 1)
+```
+
+---
+
+## Formatting modes
+
+| Mode | Example |
+|---|---|
+| `"integer"` | `+e5` |
+| `"graded"` | `+o13` |
+| `"latex"` | `+o_{13}` |
+| `"latex_integer"` | `+e_{5}` |
+| `"latex_graded"` | `+o_{13}` |
+
+Example:
+
+```python
+from hypercomplex import format_element
+
+element = (-1, 5)
+
+print(format_element(element, mode="integer"))
+# -e5
+
+print(format_element(element, mode="graded"))
+# -o13
+
+print(format_element(element, mode="latex_integer"))
+# -e_{5}
+
+print(format_element(element, mode="latex_graded"))
+# -o_{13}
+```
+
+---
+
+# Advanced Use
+
+This section is for contributors, benchmarking, physics engines, and symbolic pipelines.
+
+---
+
+## Direct low-level imports
+
+If you prefer explicit imports:
+
+```python
+from hypercomplex.core.table_builder import (
+    StandardTableBuilder,
+    SplitTableBuilder,
+    DualTableBuilder,
+)
+
+from hypercomplex.core.holographic import (
+    StandardHolographic,
+    SplitHolographic,
+    DualHolographic,
+)
+
+from hypercomplex.core.fast import (
+    FastStandard,
+    FastSplit,
+    FastDual,
+)
+
+from hypercomplex.printer import (
+    CDFormat,
+    CDTablePrinter,
+)
+```
+
+---
+
+## Cross-validating O(1) against the full table
+
+```python
+from hypercomplex import StandardTableBuilder, FastStandard
+
+builder = StandardTableBuilder()
+fast = FastStandard()
+
+n = 4
+signs, indices = builder.build(n)
+
+dim = 1 << n
+
+for i in range(dim):
+    for j in range(dim):
+        fast_sign, fast_idx = fast.multiply_indices(i, j)
+
+        assert int(signs[i, j]) == fast_sign
+        assert int(indices[i, j]) == fast_idx
+```
+
+This proves that the O(1) evaluator agrees with the O(4^n) table builder.
+
+---
+
+## Cross-validating split O(1) against the split table
+
+```python
+from hypercomplex import SplitTableBuilder, FastSplit
+
+builder = SplitTableBuilder()
+fast = FastSplit()
+
+n = 4
+signs, indices = builder.build(n)
+
+dim = 1 << n
+
+for i in range(dim):
+    for j in range(dim):
+        fast_sign, fast_idx = fast.multiply_indices(i, j, dim=n)
+
+        assert int(signs[i, j]) == fast_sign
+        assert int(indices[i, j]) == fast_idx
+```
+
+---
+
+## Dual local and global indices
+
+For dual multiplication, the total dimension is:
+
+```text
+2^(dim + 1)
+```
+
+The epsilon bit is bit `dim`.
+
+Example for `dim=1`:
+
+```text
+lower half: 0, 1        base elements
+upper half: 2, 3        epsilon elements
+```
+
+The dual multipliers accept both:
+
+```python
+# global index tuple
+(1, 2)
+
+# local tuple with epsilon flag
+(1, 0, 1)
+```
+
+Both represent ε·e₀ when `dim=1`.
+
+The output convention is:
+
+```python
+(sign, local_index, eps_flag)
+```
+
+This makes formatting easy:
+
+```python
+from hypercomplex import format_element
+
+result = (1, 0, 1)
+
+print(format_element(result, mode="integer"))
+# +eps
+
+print(format_element(result, mode="latex"))
+# +\epsilon
+```
+
+---
+
+## Using the fast engine in a physics loop
+
+For simulations, avoid building large tables. Use the fast engine directly.
+
+```python
+from hypercomplex import FastStandard
+
+fast = FastStandard()
+
+def basis_product(i: int, j: int):
+    sign, index = fast.multiply((1, i), (1, j))
+    return sign, index
+
+sign, index = basis_product(1, 2)
+
+print(sign, index)
+# 1 3
+```
+
+For octonionic or higher-dimensional simulations, this avoids O(4^n) memory.
+
+---
+
+## Table size warning
+
+Full table generation grows as:
+
+```text
+entries = 4^n
+```
+
+where `n` is the dimension exponent.
+
+| n | Dimension | Entries |
+|---:|---:|---:|
+| 0 | 1 | 1 |
+| 1 | 2 | 4 |
+| 2 | 4 | 16 |
+| 3 | 8 | 64 |
+| 4 | 16 | 256 |
+| 5 | 32 | 1,024 |
+| 6 | 64 | 4,096 |
+| 8 | 256 | 65,536 |
+| 10 | 1,024 | 1,048,576 |
+| 12 | 4,096 | 16,777,216 |
+
+For large dimensions, prefer:
+
+```python
+engine="fast"
+```
+
+or:
+
+```python
+engine="holographic"
+```
+
+---
+
+# API Reference
+
+## Top-level functions
+
+### `build_table(kind, n)`
+
+Builds a multiplication table.
+
+```python
+table = build_table("standard", 3)
+```
+
+Returns:
+
+```text
+standard:
+    (signs, indices)
+
+split:
+    (signs, indices)
+
+dual:
+    (signs, indices, eps)
+
+dual_split:
+    (signs, indices, eps)
+```
+
+---
+
+### `multiply(kind, a, b, dim=None, engine="fast")`
+
+Multiplies two basis elements.
+
+```python
+result = multiply("standard", (1, 1), (1, 2))
+```
+
+Returns:
+
+```text
+standard:
+    (sign, index)
+
+split:
+    (sign, index)
+
+dual:
+    (sign, local_index, eps_flag)
+
+dual_split:
+    (sign, local_index, eps_flag)
+```
+
+---
+
+### `format_element(element, mode="integer")`
+
+Formats a basis element tuple.
+
+```python
+format_element((1, 3), mode="integer")
+# "+e3"
+
+format_element((1, 3), mode="graded")
+# "+o12"
+```
+
+---
+
+### `print_table(table, title=None, limit=None, mode="integer")`
+
+Prints a table.
+
+```python
+table = build_table("standard", 2)
+print_table(table, mode="graded")
+```
+
+---
+
+### `export_csv(path, table, mode="integer", csv_mode="matrix")`
+
+Exports a table to CSV.
+
+```python
+table = build_table("standard", 3)
+
+export_csv(
+    "octonions.csv",
+    table,
+    mode="graded",
+    csv_mode="matrix",
+)
+```
+
+CSV modes:
+
+| `csv_mode` | Output |
+|---|---|
+| `"matrix"` | Spreadsheet-style grid |
+| `"long"` | One row per product |
+
+---
+
+## Algebra kinds
+
+| Kind | Meaning |
+|---|---|
+| `"standard"` | Ordinary Cayley–Dickson |
+| `"split"` | Split Cayley–Dickson |
+| `"dual"` | Dual extension of standard algebra |
+| `"dual_split"` | Dual extension of split algebra |
+
+Aliases:
+
+```text
+standard: "std", "ordinary", "o"
+split:    "s"
+dual:     "d", "dual_standard"
+dual_split: "split_dual", "ds"
+```
+
+---
+
+## Engines
+
+| Engine | Aliases | Complexity |
+|---|---|---:|
+| `"fast"` | `"o1"`, `"bitwise"`, `"constant"` | O(1) Word-RAM |
+| `"holographic"` | `"on"`, `"descent"` | O(n) |
+
+---
+
+# Mathematical Background
+
+## Basis product rule
+
+For standard and split Cayley–Dickson algebras:
+
+```text
+e_i * e_j = sign(i, j) * e_{i XOR j}
+```
+
+The index is always:
+
+```text
+i XOR j
+```
+
+The sign is determined by the OPMT block laws.
+
+---
+
+## Standard doubling formula
+
+```text
+(a, b)(c, d) = (ac - d* b, da + b c*)
+```
+
+with conjugation:
+
+```text
+e0* = e0
+ek* = -ek for k > 0
+```
+
+---
+
+## Split doubling formula
+
+```text
+(a, b)(c, d) = (ac + d* b, da + b c*)
+```
+
+The only difference from the standard construction is the sign of the `d* b` term.
+
+This causes Block d signs to invert relative to the standard algebra.
+
+---
+
+## Block decomposition
+
+Each multiplication table splits into four blocks:
+
+```text
+[ a  b ]
+[ c  d ]
+```
+
+where:
+
+```text
+Block a: e_i * e_j
+Block b: e_i * (e_j ℓ)
+Block c: (e_i ℓ) * e_j
+Block d: (e_i ℓ) * (e_j ℓ)
+```
+
+For standard algebras:
+
+```text
+Block d interior sign = -σ_a
+```
+
+For split algebras:
+
+```text
+Block d interior sign = +σ_a
+```
+
+---
+
+## Dual numbers
+
+Dual algebras adjoin ε such that:
+
+```text
+ε² = 0
+```
+
+Multiplication rules:
+
+```text
+e_i * e_j       = parent product
+e_i * (ε e_j)   = ε (e_i e_j)
+(ε e_i) * e_j   = ε (e_i e_j)
+(ε e_i) * (ε e_j) = 0
+```
+
+---
+
+# Complexity
+
+| Operation | Complexity | Memory |
+|---|---:|---:|
+| Full table generation | O(4^n) | O(4^n) |
+| Holographic multiplication | O(n) | O(1) |
+| Fast bitwise multiplication | O(1) Word-RAM | O(1) |
+
+For arbitrary-precision integers, the fast evaluator uses O(n) bit operations, where:
+
+```text
+n = ceil(log2(max(i, j) + 1))
+```
+
+---
+
+# Testing
+
+Run all tests:
+
+```bash
+pytest -v
+```
+
+Run specific test files:
+
+```bash
+pytest tests/test_mega_mother.py -v
+pytest tests/test_fast_mode.py -v
+pytest tests/test_holographic_vs_table.py -v
+pytest tests/test_algebra.py -v
+```
+
+The test suite validates:
+
+- Basis notation conversion.
+- Input validation.
+- Standard table generation.
+- Split table generation.
+- Dual table generation.
+- Holographic O(n) multiplication.
+- Fast O(1) multiplication.
+- Cross-validation between tables and multipliers.
+- Facade API behavior.
+- CSV export.
+
+---
+
+# Repository Structure
+
+```text
+hypercomplex-engine/
+├── examples/
+│   ├── direct_implementation/
+│   │   └── full_table_builder_simple.py
+│   └── uses/
+│       ├── outputs/
+│       └── use.ipynb
+├── hypercomplex/
+│   ├── core/
+│   │   ├── basis_element.py
+│   │   ├── basis_notation.py
+│   │   ├── validation.py
+│   │   ├── table_builder/
+│   │   │   ├── common.py
+│   │   │   ├── standard.py
+│   │   │   ├── split.py
+│   │   │   └── dual.py
+│   │   ├── holographic/
+│   │   │   ├── standard.py
+│   │   │   ├── split.py
+│   │   │   └── dual.py
+│   │   └── fast/
+│   │       ├── bit_utils.py
+│   │       ├── fast_standard.py
+│   │       ├── fast_split.py
+│   │       └── fast_dual.py
+│   ├── printer/
+│   │   ├── cd_format.py
+│   │   └── cd_table_printer.py
+│   ├── facade.py
+│   └── __init__.py
+├── tests/
+│   ├── test_algebra.py
+│   ├── test_fast_mode.py
+│   ├── test_holographic_vs_table.py
+│   └── test_mega_mother.py
+├── LICENSE
+├── README.md
+└── pyproject.toml
+```
+
+---
+
+# Related Mathematical Work
+
+This engine implements computational structures related to:
+
+```text
+The Sign Structure of Cayley–Dickson and Split Algebras by Blocks
+```
+
+and can be used as a multiplication substrate for applications such as:
+
+```text
+A Universal Exponential Law for Real Alternative Algebras
+and its Geometric Applications
+```
+
+---
+
+# License
+
+MIT License.
+
+See [`LICENSE`](LICENSE) for details.
 
 Copyright (c) 2026 Maher Ben Abdessalem
