@@ -59,6 +59,7 @@ class Validation:
 
         if len(data) == 3 and not allow_eps:
             raise ValueError("3-tuple epsilon form is not allowed here")
+        
 
         sign = data[0]
         index = data[1]

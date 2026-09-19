@@ -28,8 +28,8 @@ class FastStandard:
         Returns:
             (final_sign, index1 XOR index2)
         """
-        Validation.basis_tuple(t1, allow_zero=True, allow_eps=False)
-        Validation.basis_tuple(t2, allow_zero=True, allow_eps=False)
+        Validation.basis_tuple(t1, allow_zero=False, allow_eps=False)
+        Validation.basis_tuple(t2, allow_zero=False, allow_eps=False)
 
         s1, i = int(t1[0]), int(t1[1])
         s2, j = int(t2[0]), int(t2[1])
