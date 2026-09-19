@@ -3,7 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-62%20passed-success)](#)
-
+[![PyPI version](https://badge.fury.io/py/hypercomplex-engine.svg)](https://pypi.org/project/hypercomplex-engine/)
+[![Downloads](https://static.pepy.tech/badge/hypercomplex-engine)](https://pepy.tech/project/hypercomplex-engine)
 
 Fast, validated multiplication and table generation for Cayley–Dickson algebras.
 
