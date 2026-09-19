@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypercomplex-engine" 
-version = "1.0.4"
+version = "1.0.4.1"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
@@ -13,7 +13,7 @@ readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=1.20.0"
+    "numpy>=1.20.2"
 ]
 keywords = [
     "hypercomplex", "cayley-dickson", "quaternions", "octonions", 
