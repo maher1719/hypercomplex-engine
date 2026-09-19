@@ -1,0 +1,236 @@
+diff --git a/hypercomplex/__init__.py b/hypercomplex/__init__.py
+index bfa07b3..bcdeec0 100644
+--- a/hypercomplex/__init__.py
++++ b/hypercomplex/__init__.py
+@@ -1,5 +1,6 @@
+ from .facade import (
+     build_table,
++    estimate_table_bytes,
+     multiply,
+     format_element,
+     print_table,
+@@ -32,6 +33,7 @@ from .printer import (
+ __all__ = [
+     # Simple API
+     "build_table",
++    "estimate_table_bytes",
+     "multiply",
+     "format_element",
+     "print_table",
+diff --git a/hypercomplex/core/holographic/dual.py b/hypercomplex/core/holographic/dual.py
+index 5db04c3..bbe7ea2 100644
+--- a/hypercomplex/core/holographic/dual.py
++++ b/hypercomplex/core/holographic/dual.py
+@@ -19,7 +19,8 @@ class DualHolographic:
+ 
+     Nilpotency:
+         (epsilon e_i) * (epsilon e_j) = 0
+-        returned as (0, 0, 1)
++        returned as the canonical zero (0, 0, 0), matching FastDual
++        and DualTableBuilder
+     """
+ 
+     def __init__(self, split: bool = False):
+@@ -73,7 +74,7 @@ class DualHolographic:
+         # (epsilon e_i) * (epsilon e_j) = 0
+         # --------------------------------------------------------------
+         if i_eps and j_eps:
+-            return (0, 0, 1)
++            return (0, 0, 0)
+ 
+         # --------------------------------------------------------------
+         # Base multiplication.
+diff --git a/hypercomplex/facade.py b/hypercomplex/facade.py
+index 86b85af..2890f39 100644
+--- a/hypercomplex/facade.py
++++ b/hypercomplex/facade.py
+@@ -16,6 +16,9 @@ from .core.fast import (
+     FastDual,
+ )
+ 
++import numpy as np
++
++from .core.table_builder.common import index_dtype
+ from .core.validation import Validation
+ 
+ from .printer import CDFormat, CDTablePrinter
+@@ -156,7 +159,33 @@ def _as_dual_global(t: tuple, dim: int) -> tuple:
+ # Public simple API
+ # ----------------------------------------------------------------------
+ 
+-def build_table(kind: str, n: int):
++# Default memory budget for build_table (bytes of final table data).
++# 256 MiB allows standard/split up to n=13 and dual/dual_split up to n=12.
++DEFAULT_MAX_TABLE_BYTES = 1 << 28
++
++
++def estimate_table_bytes(kind: str, n: int) -> int:
++    """
++    Estimate the bytes of the final table arrays that build_table(kind, n)
++    would allocate. Peak usage while building is roughly 1.5x this value.
++
++    Dual kinds are one doubling larger than the same n for standard/split,
++    and carry an extra uint8 epsilon array.
++    """
++    kind = _normalize_kind(kind)
++    n = Validation.dimension(n)
++
++    is_dual = kind in ("dual", "dual_split")
++    full = 1 << (n + 1 if is_dual else n)
++
++    per_entry = 1 + np.dtype(index_dtype(full)).itemsize  # signs + indices
++    if is_dual:
++        per_entry += 1  # eps array
++
++    return full * full * per_entry
++
++
++def build_table(kind: str, n: int, max_bytes: int | None = DEFAULT_MAX_TABLE_BYTES):
+     """
+     Build a multiplication table.
+ 
+@@ -165,9 +194,29 @@ def build_table(kind: str, n: int):
+         "split"
+         "dual"
+         "dual_split"
++
++    n:
++        Dimension exponent (algebra dimension 2**n). Must be an integer.
++
++    max_bytes:
++        Memory budget for the final table arrays. If the estimated size
++        exceeds it, ValueError is raised instead of attempting the build.
++        Pass a larger int on a strong machine, or None to disable the check.
++        Use estimate_table_bytes(kind, n) to check a size in advance, or
++        multiply(..., engine="fast") to avoid tables entirely.
+     """
+     kind = _normalize_kind(kind)
+-    n = int(n)
++    n = Validation.dimension(n)
++
++    if max_bytes is not None:
++        needed = estimate_table_bytes(kind, n)
++        if needed > max_bytes:
++            raise ValueError(
++                f"build_table({kind!r}, {n}) needs about {needed / 2**20:,.1f} MiB "
++                f"(limit {max_bytes / 2**20:,.1f} MiB). Pass a larger max_bytes, "
++                "max_bytes=None to disable the check, or use "
++                'multiply(..., engine="fast") which needs no table.'
++            )
+ 
+     if kind == "standard":
+         return _standard_table.build(n)
+diff --git a/tests/test_fixes_0_4.py b/tests/test_fixes_0_4.py
+new file mode 100644
+index 0000000..3f26630
+--- /dev/null
++++ b/tests/test_fixes_0_4.py
+@@ -0,0 +1,108 @@
++"""Regression tests for the 0.4.0 fixes."""
++import itertools
++
++import pytest
++
++from hypercomplex import (
++    DualTableBuilder,
++    FastDual,
++    DualHolographic,
++    build_table,
++    estimate_table_bytes,
++    format_element,
++    multiply,
++)
++
++
++# --- 1. dual nilpotency: one canonical zero across every engine -----------
++
++@pytest.mark.parametrize("split", [False, True])
++@pytest.mark.parametrize("n", [1, 2, 3])
++def test_dual_engines_agree_everywhere(n, split):
++    fast = FastDual(split=split)
++    holo = DualHolographic(split=split)
++    signs, indices, eps = DualTableBuilder().build(n, split=split)
++    size = 1 << (n + 1)
++
++    for i, j in itertools.product(range(size), repeat=2):
++        f = tuple(fast.multiply((1, i), (1, j), dim=n))
++        h = tuple(holo.multiply((1, i), (1, j), dim=n))
++        assert f == h, (i, j, f, h)
++
++        if signs[i, j] == 0:
++            assert f == (0, 0, 0)
++        else:
++            assert f == (int(signs[i, j]), int(indices[i, j]), int(eps[i, j]))
++
++
++@pytest.mark.parametrize("kind", ["dual", "dual_split"])
++def test_facade_eps_squared_is_canonical_zero(kind):
++    eps = (1, 0, 1)
++    for engine in ("fast", "holographic"):
++        assert multiply(kind, eps, eps, dim=1, engine=engine) == (0, 0, 0)
++    assert format_element((0, 0, 0), mode="integer") == "0"
++
++
++# --- 2. build_table: strict n, memory guard --------------------------------
++
++@pytest.mark.parametrize("bad", [2.5, 2.0, "3", None, True])
++def test_build_table_rejects_non_integer_n(bad):
++    with pytest.raises(TypeError):
++        build_table("standard", bad)
++
++
++def test_build_table_rejects_negative_n():
++    with pytest.raises(ValueError):
++        build_table("standard", -1)
++
++
++def test_build_table_guard_blocks_huge_request_without_allocating():
++    with pytest.raises(ValueError, match="max_bytes"):
++        build_table("standard", 40)
++    with pytest.raises(ValueError, match="max_bytes"):
++        build_table("dual_split", 30)
++
++
++def test_build_table_max_bytes_can_be_raised_or_disabled():
++    assert build_table("standard", 6, max_bytes=None)[0].shape == (64, 64)
++    with pytest.raises(ValueError):
++        build_table("standard", 6, max_bytes=100)
++    assert build_table("standard", 6, max_bytes=estimate_table_bytes("standard", 6))[0].shape == (64, 64)
++
++
++@pytest.mark.parametrize("kind", ["standard", "split", "dual", "dual_split"])
++@pytest.mark.parametrize("n", [0, 1, 3, 6, 9])
++def test_estimate_matches_real_allocation(kind, n):
++    table = build_table(kind, n, max_bytes=None)
++    actual = sum(arr.nbytes for arr in table)
++    assert estimate_table_bytes(kind, n) == actual
++
++
++def test_default_budget_allows_documented_sizes():
++    assert estimate_table_bytes("standard", 13) <= 1 << 28 < estimate_table_bytes("standard", 14)
++    assert estimate_table_bytes("dual", 12) <= 1 << 28 < estimate_table_bytes("dual", 13)
++
++
++# --- 3. engine aliases ------------------------------------------------------
++
++@pytest.mark.parametrize("alias", ["fast", "o1", "bitwise", "constant"])
++def test_fast_engine_aliases(alias):
++    assert multiply("standard", (1, 3), (1, 5), engine=alias) == multiply(
++        "standard", (1, 3), (1, 5), engine="fast"
++    )
++
++
++@pytest.mark.parametrize("alias", ["holographic", "on", "o(n)", "descent"])
++def test_holographic_engine_aliases(alias):
++    assert multiply("standard", (1, 3), (1, 5), engine=alias) == multiply(
++        "standard", (1, 3), (1, 5), engine="holographic"
++    )
++
++
++# --- 4. latex documented behaviour -----------------------------------------
++
++def test_latex_is_alias_of_latex_integer():
++    for el in [(1, 3), (-1, 5), (1, 0)]:
++        assert format_element(el, mode="latex") == format_element(el, mode="latex_integer")
++    assert format_element((1, 3), mode="latex") == "+e_{3}"
++    assert format_element((-1, 5), mode="latex_graded") == "-o_{13}"

@@ -88,6 +88,7 @@ def _normalize_engine(engine: str) -> str:
         "constant": "fast",
         "fast": "fast",
         "bitwise": "fast",
+        "o1":"fast",
 
         "holographic": "holographic",
         "on": "holographic",

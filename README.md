@@ -60,7 +60,7 @@ pip install hypercomplex-engine
 Install in editable mode:
 
 ```bash
-pip install -e
+pip install -e .
 ```
 
 Run the tests:
@@ -201,7 +201,7 @@ print(format_element(result, mode="graded"))
 # +o12
 
 print(format_element(result, mode="latex"))
-# +e_{12}
+# +e_{3}
 ```
 
 Note:

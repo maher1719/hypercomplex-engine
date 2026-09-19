@@ -73,7 +73,7 @@ class DualHolographic:
         # (epsilon e_i) * (epsilon e_j) = 0
         # --------------------------------------------------------------
         if i_eps and j_eps:
-            return (0, 0, 1)
+            return (0, 0, 0)
 
         # --------------------------------------------------------------
         # Base multiplication.
