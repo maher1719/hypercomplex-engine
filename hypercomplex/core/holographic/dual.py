@@ -19,7 +19,8 @@ class DualHolographic:
 
     Nilpotency:
         (epsilon e_i) * (epsilon e_j) = 0
-        returned as (0, 0, 1)
+        returned as the canonical zero (0, 0, 0), matching FastDual
+        and DualTableBuilder
     """
 
     def __init__(self, split: bool = False):

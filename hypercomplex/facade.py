@@ -16,6 +16,9 @@ from .core.fast import (
     FastDual,
 )
 
+import numpy as np
+
+from .core.table_builder.common import index_dtype
 from .core.validation import Validation
 
 from .printer import CDFormat, CDTablePrinter
@@ -156,7 +159,33 @@ def _as_dual_global(t: tuple, dim: int) -> tuple:
 # Public simple API
 # ----------------------------------------------------------------------
 
-def build_table(kind: str, n: int):
+# Default memory budget for build_table (bytes of final table data).
+# 256 MiB allows standard/split up to n=13 and dual/dual_split up to n=12.
+DEFAULT_MAX_TABLE_BYTES = 1 << 28
+
+
+def estimate_table_bytes(kind: str, n: int) -> int:
+    """
+    Estimate the bytes of the final table arrays that build_table(kind, n)
+    would allocate. Peak usage while building is roughly 1.5x this value.
+
+    Dual kinds are one doubling larger than the same n for standard/split,
+    and carry an extra uint8 epsilon array.
+    """
+    kind = _normalize_kind(kind)
+    n = Validation.dimension(n)
+
+    is_dual = kind in ("dual", "dual_split")
+    full = 1 << (n + 1 if is_dual else n)
+
+    per_entry = 1 + np.dtype(index_dtype(full)).itemsize  # signs + indices
+    if is_dual:
+        per_entry += 1  # eps array
+
+    return full * full * per_entry
+
+
+def build_table(kind: str, n: int, max_bytes: int | None = DEFAULT_MAX_TABLE_BYTES):
     """
     Build a multiplication table.
 
@@ -165,9 +194,29 @@ def build_table(kind: str, n: int):
         "split"
         "dual"
         "dual_split"
+
+    n:
+        Dimension exponent (algebra dimension 2**n). Must be an integer.
+
+    max_bytes:
+        Memory budget for the final table arrays. If the estimated size
+        exceeds it, ValueError is raised instead of attempting the build.
+        Pass a larger int on a strong machine, or None to disable the check.
+        Use estimate_table_bytes(kind, n) to check a size in advance, or
+        multiply(..., engine="fast") to avoid tables entirely.
     """
     kind = _normalize_kind(kind)
-    n = int(n)
+    n = Validation.dimension(n)
+
+    if max_bytes is not None:
+        needed = estimate_table_bytes(kind, n)
+        if needed > max_bytes:
+            raise ValueError(
+                f"build_table({kind!r}, {n}) needs about {needed / 2**20:,.1f} MiB "
+                f"(limit {max_bytes / 2**20:,.1f} MiB). Pass a larger max_bytes, "
+                "max_bytes=None to disable the check, or use "
+                'multiply(..., engine="fast") which needs no table.'
+            )
 
     if kind == "standard":
         return _standard_table.build(n)

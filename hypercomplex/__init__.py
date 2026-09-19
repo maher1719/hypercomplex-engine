@@ -1,5 +1,6 @@
 from .facade import (
     build_table,
+    estimate_table_bytes,
     multiply,
     format_element,
     print_table,
@@ -32,6 +33,7 @@ from .printer import (
 __all__ = [
     # Simple API
     "build_table",
+    "estimate_table_bytes",
     "multiply",
     "format_element",
     "print_table",
