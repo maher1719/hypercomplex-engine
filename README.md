@@ -313,9 +313,7 @@ multiply("dual_split", a, b, dim=3)
 
 For `standard`, `dim` is not needed.
 
-For `split`, `dim` is optional and can often be inferred from the indices.
-
-For `dual` and `dual_split`, `dim` is required.
+For `split`, `dual` and `dual_split`, `dim` is required.
 
 ---
 
