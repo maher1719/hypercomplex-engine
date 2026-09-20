@@ -8,7 +8,7 @@ version = "0.4.2"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
-description = "Fast O(1)/O(n) multiplication engine and table generator for ordinary, split, and dual Cayley-Dickson algebras."
+description = "Fast O(1)/O(n) multiplication engine for arbitrary dimensions and table generator for ordinary, split, and dual Cayley-Dickson algebras."
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.10"

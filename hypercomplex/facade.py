@@ -267,8 +267,12 @@ def multiply(
         # Validate inputs before any early return, so malformed data always
         # raises ValidationError instead of leaking TypeError/IndexError.
     allow_eps = kind in ("dual", "dual_split")
-    Validation.basis_tuple(a, allow_zero=True, allow_eps=allow_eps)
-    Validation.basis_tuple(b, allow_zero=True, allow_eps=allow_eps)
+    if allow_eps:
+        Validation.basis_tuple(a, allow_zero=True, allow_eps=allow_eps)
+        Validation.basis_tuple(b, allow_zero=True, allow_eps=allow_eps)
+    else:
+        Validation.basis_tuple(a, allow_zero=False, allow_eps=False)
+        Validation.basis_tuple(b, allow_zero=False, allow_eps=False)
 
     # Zero propagation
     if int(a[0]) == 0 or int(b[0]) == 0:
