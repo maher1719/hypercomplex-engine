@@ -73,8 +73,10 @@ def test_facade_dual_3tuple_promotion():
 def test_facade_zero_shapes():
     assert multiply("dual", (0, 2), (1, 3), dim=2) == (0, 0, 0)
     assert multiply("dual_split", (1, 2), (0, 3), dim=2) == (0, 0, 0)
-    assert multiply("standard", (0, 2), (1, 3), dim=2) == (0, 0)   # formal zero
-    assert multiply("split", (0, 2), (1, 3), dim=2) == (0, 0)
+    with pytest.raises((TypeError, ValueError)):
+        assert multiply("standard", (0, 2), (1, 3), dim=2) == (0, 0) 
+    with pytest.raises((TypeError, ValueError)):  # formal zero
+        assert multiply("split", (0, 2), (1, 3), dim=2) == (0, 0)
 
 
 def test_facade_malformed_raises_validation_error():
