@@ -200,5 +200,5 @@ class CDTablePrinter:
                             line += f",{int(eps[i, j])}"
 
                         f.write(line + "\n")
-
+        print(f"Table successfully built {path} ")
         return path
