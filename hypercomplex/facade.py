@@ -358,7 +358,7 @@ def export_csv(
     Export a table built by build_table().
     """
     signs, indices, eps = _unpack_table(table)
-
+    
     return CDTablePrinter.export_csv(
         path,
         signs,

@@ -1,4 +1,5 @@
 from .cd_format import CDFormat
+import logging
 
 
 class CDTablePrinter:
@@ -200,5 +201,7 @@ class CDTablePrinter:
                             line += f",{int(eps[i, j])}"
 
                         f.write(line + "\n")
-        print(f"Table successfully built {path} ")
+        logging.basicConfig(level=logging.INFO)
+
+        logging.info(f"Table successfully built {path} ")
         return path
