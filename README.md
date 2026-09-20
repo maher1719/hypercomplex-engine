@@ -7,7 +7,7 @@
 [![Downloads](https://static.pepy.tech/badge/hypercomplex-engine)](https://pepy.tech/project/hypercomplex-engine)
 
 
-Fast, validated multiplication and table generation for Cayley–Dickson algebras.
+Fast, validated multiplication and table generation for Cayley–Dickson algebras up to dimension 2^63 for O(1)/O(n) and depend on RAM allocation up to 2^13 for table builder.
 
 This library provides the computational substrate for high-dimensional hypercomplex algebra, featuring:
 
