@@ -10,7 +10,7 @@
 Fast, cross validated multiplication and table generation for Cayley–Dickson algebras up to **one million digits** indices tested for O(1)/O(n) and depend on RAM allocation up to 2^13 or more for table builder.
 
 
-For more info please visit All benchamrks are in [BENCHMARKS.md](https://github.com/maher1719/hypercomplex-engine/blob/main/BENCHMARKS.md) and jupyter notebook [benchmark.ipynb](https://github.com/maher1719/hypercomplex-engine/blob/main/examples/benchmark/benchmark.ipynb)
+For more info please visit All benchamrks are in [BENCHMARKS.md](https://github.com/maher1719/hypercomplex-engine/blob/main/BENCHMARKS.md) and jupyter notebook [benchmark.ipynb](https://github.com/maher1719/hypercomplex-engine/blob/main/examples/benchmark/benchmark.ipynb) (note speed time may vary depend on your hardware).
 
 This library provides the computational substrate for high-dimensional hypercomplex algebra, featuring:
 
