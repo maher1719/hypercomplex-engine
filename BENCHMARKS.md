@@ -15,7 +15,7 @@ By bypassing traditional exponential O(4^n) lookup tables and introducing a dual
 | hypercomplex-engine | 0.4.2 |
 | Python | 3.13.5 |
 | NumPy | 2.5.3 |
-| Platform | Linux-6.12.107+deb13-amd64-x86_64-with-glibc2.41 |
+| Platform | Debian 13 |
 | CPU | 12th Gen Intel(R) Core(TM) i5-12450H |
 | Mode | full |
 | File | [examples/benchmark/benchmark.ipynb](https://github.com/maher1719/hypercomplex-engine/blob/main/examples/benchmark/benchmark.ipynb) |
