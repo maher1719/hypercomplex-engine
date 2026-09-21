@@ -34,9 +34,6 @@ class FastStandard:
         s1, i = int(t1[0]), int(t1[1])
         s2, j = int(t2[0]), int(t2[1])
 
-        if s1 == 0 or s2 == 0:
-            return (0, 0)
-
         sign, idx = self.multiply_indices(i, j)
 
         return (s1 * s2 * sign, idx)
