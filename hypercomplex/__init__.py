@@ -1,3 +1,9 @@
+import logging
+
+# Library logging etiquette: attach a NullHandler and let the APPLICATION decide
+# whether and how to display messages (never call logging.basicConfig here).
+logging.getLogger(__name__).addHandler(logging.NullHandler())
+
 from .facade import (
     build_table,
     estimate_table_bytes,
