@@ -25,7 +25,7 @@ This library provides the computational substrate for high-dimensional hypercomp
 
 ## Scope and limitations 
 
-If you build upon this package, please read fully [Go to Scope, Strengths, and Limitations](#scope-strengths-and-limitations) below for more information or check [Scope, Strengths, and Limitations file](README_scope_and_limitations.md#scope-strengths-and-limitations)
+If you build upon this package, please read fully [Go to Scope, Strengths, and Limitations](#scope-strengths-and-limitations) below for more information or check [Scope, Strengths, and Limitations file](https://github.com/maher1719/hypercomplex-engine/blob/main/README_scope_and_limitations.md#scope-strengths-and-limitations)
 
 
 ## 📄 Publications & Preprints
