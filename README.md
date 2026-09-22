@@ -1099,7 +1099,7 @@ doi = "10.6084/m9.figshare.33705022.v5"
 
 # License
 
-MIT License.
+Apache 2.0 License.
 
 See [`LICENSE`](LICENSE) for details.
 
