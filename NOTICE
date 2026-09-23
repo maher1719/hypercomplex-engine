@@ -1,0 +1,14 @@
+hypercomplex-engine
+Copyright 2026 Maher Ben Abdessalem
+
+This product includes software developed by Maher Ben Abdessalem.
+
+This software implements mathematical architectures, block decompositions, and O(1) 
+bitwise closed-form sign evaluators originally authored and published by the 
+copyright holder in the following preprints:
+
+- A Proven Sign Law for Cayley-Dickson Algebras: Ordinary, Split, dual Constructions and their computational proofs and implementations
+  Figshare DOI: https://doi.org/10.6084/m9.figshare.33705022
+- Unveiling the Structure of Cayley-Dickson Algebras: Zero Divisor Counting and Listing, and a Novel Sign Compression Scheme
+  Zenodo DOI: 10.5281/zenodo.22051873
+  OSF DOI: https://doi.org/10.31219/osf.io/byqfw_v3
