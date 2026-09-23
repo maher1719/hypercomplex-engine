@@ -1,6 +1,6 @@
 # hypercomplex-engine
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-maher1719%2Fhypercomplex--engine-black?logo=github)](https://github.com/maher1719/hypercomplex-engine)
 [![PyPI version](https://img.shields.io/pypi/v/hypercomplex-engine.svg)](https://pypi.org/project/hypercomplex-engine/)
