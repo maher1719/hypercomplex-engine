@@ -1095,6 +1095,10 @@ doi = "10.6084/m9.figshare.33705022.v5"
 
 ```
 
+### Acknowledgments
+
+The author gratefully acknowledges **Greg Wilmot** for his work on the structure of Cayley-Dickson algebras and for acknowledging the author's contribution to his paper *"Structure of the Cayley-Dickson algebras"* ([arXiv:2505.11747](https://arxiv.org/abs/2505.11747)).
+
 ---
 
 # License
