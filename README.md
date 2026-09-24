@@ -1101,6 +1101,13 @@ The author gratefully acknowledges **Greg Wilmot** for his work on the structure
 
 ---
 
+## References
+
+- Guangbin Ren and Xin Zhao, "The Explicit Twisted Group Algebra Structure of
+  the Cayley–Dickson Algebra," *Advances in Applied Clifford Algebras* 33,
+  Article 49 (2023). https://doi.org/10.1007/s00006-023-01296-6 ·
+  arXiv:2205.07986.
+
 # License
 
 Apache 2.0 License.
