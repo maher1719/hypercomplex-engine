@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypercomplex-engine" 
-version = "0.4.2.5"
+version = "0.4.2.6"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
@@ -42,6 +42,6 @@ classifiers = [
 
 # CRITICAL: This prevents tests/ and examples/ from being packaged
 [tool.setuptools.packages.find]
-include = ["hypercomplex*"]
+include = ["hypercomplex-engine*"]
 exclude = ["tests*", "examples*"]
 
