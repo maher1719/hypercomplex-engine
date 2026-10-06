@@ -12,8 +12,9 @@ History:
 import pytest
 
 # Adjust these imports to whatever hypercomplex/__init__.py exports.
-from hypercomplex import multiply, FastDual, DualHolographic
-from hypercomplex.core.validation import Validation
+from hypercomplex_engine import multiply, FastDual, DualHolographic
+from hypercomplex_engine.core.validation import Validation
+
 
 
 # ---------- tuple normalization: engines must agree on identical input ----------
