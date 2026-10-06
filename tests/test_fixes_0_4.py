@@ -3,7 +3,7 @@ import itertools
 
 import pytest
 
-from hypercomplex import (
+from hypercomplex_engine import (
     DualTableBuilder,
     FastDual,
     DualHolographic,

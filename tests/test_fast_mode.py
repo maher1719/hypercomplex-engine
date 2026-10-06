@@ -1,18 +1,18 @@
 import pytest
 
-from hypercomplex.core.table_builder import (
+from hypercomplex_engine.core.table_builder import (
     StandardTableBuilder,
     SplitTableBuilder,
     DualTableBuilder,
 )
 
-from hypercomplex.core.fast import (
+from hypercomplex_engine.core.fast import (
     FastStandard,
     FastSplit,
     FastDual,
 )
 
-from hypercomplex import multiply
+from hypercomplex_engine import multiply
 
 
 # ======================================================================

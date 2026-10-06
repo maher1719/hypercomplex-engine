@@ -24,7 +24,7 @@ import tempfile
 import numpy as np
 import pytest
 
-from hypercomplex import (
+from hypercomplex_engine import (
     # Facade
     build_table,
     multiply,

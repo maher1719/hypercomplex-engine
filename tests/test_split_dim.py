@@ -1,6 +1,6 @@
 """split/dual require an explicit dim; split rejects epsilon 3-tuples."""
 import pytest
-from hypercomplex import multiply
+from hypercomplex_engine import multiply
 
 
 @pytest.mark.parametrize("engine", ["fast", "holographic"])
