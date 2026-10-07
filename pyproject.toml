@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypercomplex-engine" 
-version = "0.4.2.6"
+version = "0.4.2.7"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
@@ -18,7 +18,7 @@ dependencies = [
 ]
 keywords = [
     "hypercomplex", "cayley-dickson", "quaternions", "octonions", 
-    "split-algebra", "math", "physics", "geometry"
+    "split-algebra", "math", "physics", "geometry","sedenions"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

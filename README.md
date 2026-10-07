@@ -83,7 +83,7 @@ pytest -v
 The simplest way to use the library is through the top-level facade API.
 
 ```python
-from hypercomplex import (
+from hypercomplex_engine import (
     build_table,
     multiply,
     format_element,
@@ -296,7 +296,7 @@ multiply(kind, a, b, dim=None, engine="fast")
 Example:
 
 ```python
-from hypercomplex import multiply
+from hypercomplex_engine import multiply
 
 a = (1, 3)
 b = (1, 5)
@@ -327,7 +327,7 @@ For `split`, `dual` and `dual_split`, `dim` is required.
 ## Table builders directly
 
 ```python
-from hypercomplex import (
+from hypercomplex_engine import (
     StandardTableBuilder,
     SplitTableBuilder,
     DualTableBuilder,
@@ -366,7 +366,7 @@ For dual tables:
 ## Multipliers directly
 
 ```python
-from hypercomplex import (
+from hypercomplex_engine import (
     StandardHolographic,
     SplitHolographic,
     DualHolographic,
@@ -405,7 +405,7 @@ print(result)
 ## Fast O(1) multipliers directly
 
 ```python
-from hypercomplex import (
+from hypercomplex_engine import (
     FastStandard,
     FastSplit,
     FastDual,
@@ -456,7 +456,7 @@ print(result)
 Example:
 
 ```python
-from hypercomplex import format_element
+from hypercomplex_engine import format_element
 
 element = (-1, 5)
 
@@ -489,25 +489,25 @@ This section is for contributors, benchmarking, physics engines, and symbolic pi
 If you prefer explicit imports:
 
 ```python
-from hypercomplex.core.table_builder import (
+from hypercomplex_engine.core.table_builder import (
     StandardTableBuilder,
     SplitTableBuilder,
     DualTableBuilder,
 )
 
-from hypercomplex.core.holographic import (
+from hypercomplex_engine.core.holographic import (
     StandardHolographic,
     SplitHolographic,
     DualHolographic,
 )
 
-from hypercomplex.core.fast import (
+from hypercomplex_engine.core.fast import (
     FastStandard,
     FastSplit,
     FastDual,
 )
 
-from hypercomplex.printer import (
+from hypercomplex_engine.printer import (
     CDFormat,
     CDTablePrinter,
 )
@@ -518,7 +518,7 @@ from hypercomplex.printer import (
 ## Cross-validating O(1) against the full table
 
 ```python
-from hypercomplex import StandardTableBuilder, FastStandard
+from hypercomplex_engine import StandardTableBuilder, FastStandard
 
 builder = StandardTableBuilder()
 fast = FastStandard()
@@ -543,7 +543,7 @@ This proves that the O(1) evaluator agrees with the O(4^n) table builder.
 ## Cross-validating split O(1) against the split table
 
 ```python
-from hypercomplex import SplitTableBuilder, FastSplit
+from hypercomplex_engine import SplitTableBuilder, FastSplit
 
 builder = SplitTableBuilder()
 fast = FastSplit()
@@ -601,7 +601,7 @@ The output convention is:
 This makes formatting easy:
 
 ```python
-from hypercomplex import format_element
+from hypercomplex_engine import format_element
 
 result = (1, 0, 1)
 
@@ -619,7 +619,7 @@ print(format_element(result, mode="latex"))
 For simulations, avoid building large tables. Use the fast engine directly.
 
 ```python
-from hypercomplex import FastStandard
+from hypercomplex_engine import FastStandard
 
 fast = FastStandard()
 
