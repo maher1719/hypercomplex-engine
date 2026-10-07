@@ -106,8 +106,7 @@ class CDTablePrinter:
             )
 
         print()
-
-        #return rows
+        
 
     @staticmethod
     def export_csv(
