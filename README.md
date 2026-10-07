@@ -1097,7 +1097,7 @@ doi = "10.6084/m9.figshare.33705022.v8"
 
 ### Acknowledgments
 
-The author gratefully acknowledges **Prof. Derek Abbott**, **Dr. James M. Chappell**, and PhD candidate **Greg P. Wilmot** from the University of Adelaide, Australia, for the opportunity of collaboration and a deeper study of hypercomplex numbers. Special thanks go to **Greg Wilmot** for his work on the structure of Cayley-Dickson algebras and for acknowledging the author's contribution to his paper, *"Structure of the Cayley-Dickson algebras"* ([arXiv:2505.11747](https://arxiv.org)).
+The author gratefully acknowledges **Prof. Derek Abbott**, **Dr. James M. Chappell**, and PhD candidate **Greg P. Wilmot** from the University of Adelaide, Australia, for the opportunity of collaboration and a deeper study of hypercomplex numbers. Special thanks go to **Greg P. Wilmot** for his work on the structure of Cayley-Dickson algebras and for acknowledging the author's contribution to his paper, *"Structure of the Cayley-Dickson algebras"* ([arXiv:2505.11747](https://arxiv.org)).
 
 
 ---
