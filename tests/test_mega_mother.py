@@ -262,24 +262,24 @@ class TestDualHolographic:
 
     def test_nilpotency(self):
         holo = DualHolographic(split=False)
-        result = holo.multiply((1, 1), (1, 1), dim=0)
+        result = holo.multiply((1, 0, 1), (1, 0, 1), dim=0)
         assert result[0] == 0   # zero element
 
     def test_base_product_no_eps(self):
         holo = DualHolographic(split=False)
-        result = holo.multiply((1, 1), (1, 1), dim=1)
+        result = holo.multiply((1, 1, 0), (1, 1, 0), dim=1)
         assert result[0] == -1  # sign
         assert result[2] == 0   # no epsilon
 
     def test_one_eps_factor(self):
         holo = DualHolographic(split=False)
         # e0 * (eps*e0) = eps*e0
-        result = holo.multiply((1, 0), (1, 2), dim=1)
+        result = holo.multiply((1, 0, 0), (1, 1,1), dim=1)
         assert result[2] == 1   # has epsilon
 
     def test_zero_propagation(self):
         holo = DualHolographic(split=False)
-        result = holo.multiply((0, 0), (1, 1), dim=1)
+        result = holo.multiply((0, 0,0), (1, 1,0), dim=1)
         assert result[0] == 0
 
 
@@ -461,7 +461,7 @@ class TestFacade:
         assert multiply("split", (1, 1), (1, 1), dim=1) == (1, 0)
 
     def test_multiply_dual(self):
-        result = multiply("dual", (1, 1), (1, 1), dim=1)
+        result = multiply("dual", (1, 1, 0), (1, 1, 0), dim=1)
         assert result[0] == -1
         assert result[2] == 0
 
@@ -517,7 +517,7 @@ class TestEndToEnd:
 
     def test_dual_nilpotency_workflow(self):
         """ε² = 0 in dual algebra."""
-        result = multiply("dual", (1, 4), (1, 4), dim=2)
+        result = multiply("dual", (1, 0, 1), (1, 0, 1), dim=2)
         assert result[0] == 0
 
     def test_notation_roundtrip_in_context(self):

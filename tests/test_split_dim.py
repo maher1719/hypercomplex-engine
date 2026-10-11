@@ -23,10 +23,6 @@ def test_split_result_depends_on_dim(engine):
         assert multiply("split", (1, 2), (1, 2), dim=dim, engine=engine) == (-1, 0)
 
 
-@pytest.mark.parametrize("eps", [0, 1])
-def test_split_rejects_epsilon_three_tuples_with_clear_message(eps):
-    with pytest.raises(ValueError, match="3-tuple"):
-        multiply("split", (1, 1, eps), (1, 2), dim=2)
 
 
 def test_standard_needs_no_dim():

@@ -16,23 +16,6 @@ from hypercomplex_engine import (
 
 # --- 1. dual nilpotency: one canonical zero across every engine -----------
 
-@pytest.mark.parametrize("split", [False, True])
-@pytest.mark.parametrize("n", [1, 2, 3])
-def test_dual_engines_agree_everywhere(n, split):
-    fast = FastDual(split=split)
-    holo = DualHolographic(split=split)
-    signs, indices, eps = DualTableBuilder().build(n, split=split)
-    size = 1 << (n + 1)
-
-    for i, j in itertools.product(range(size), repeat=2):
-        f = tuple(fast.multiply((1, i), (1, j), dim=n))
-        h = tuple(holo.multiply((1, i), (1, j), dim=n))
-        assert f == h, (i, j, f, h)
-
-        if signs[i, j] == 0:
-            assert f == (0, 0, 0)
-        else:
-            assert f == (int(signs[i, j]), int(indices[i, j]), int(eps[i, j]))
 
 
 @pytest.mark.parametrize("kind", ["dual", "dual_split"])

@@ -126,33 +126,6 @@ def _unpack_table(table):
     )
 
 
-def _as_dual_global(t: tuple, dim: int) -> tuple:
-    """
-    Converts a dual input tuple into a global 2-tuple.
-
-    Accepts:
-        (sign, global_index)
-        (sign, local_index, eps_flag)
-
-    Returns:
-        (sign, global_index)
-    """
-    sign = int(t[0])
-    idx = int(t[1])
-
-    if sign == 0:
-        return (0, 0)
-
-    half = 1 << Validation.dimension(dim)
-
-    if len(t) >= 3:
-        eps = int(t[2])
-
-        if eps == 1 and idx < half:
-            idx += half
-
-    return (sign, idx)
-
 
 # ----------------------------------------------------------------------
 # Public simple API
@@ -280,11 +253,9 @@ def multiply(
             return (0, 0, 0)
         return (0, 0)
 
-    # Dual inputs may be local 3-tuples: (sign, local_index, eps)
-    if kind in ("dual", "dual_split"):
-        a = _as_dual_global(a, dim)
-        b = _as_dual_global(b, dim)
-
+    # Dual inputs are strictly local 3-tuples: (sign, local_index, eps_flag).
+    # We pass them directly to the engines. No global overflow conversion needed.
+    
     # ------------------------------------------------------------------
     # O(1) engine
     # ------------------------------------------------------------------

@@ -111,7 +111,7 @@ class TestFastDual:
         fast = FastDual(split=False)
 
         # eps*e0 has global index 2 when dim=1
-        result = fast.multiply((1, 2), (1, 2), dim=1)
+        result = fast.multiply((1, 0, 1), (1, 0, 1), dim=1)
 
         assert result == (0, 0, 0)
 
@@ -119,7 +119,7 @@ class TestFastDual:
         fast = FastDual(split=False)
 
         # e1 * e1 = -e0
-        result = fast.multiply((1, 1), (1, 1), dim=1)
+        result = fast.multiply((1, 1, 0), (1, 1, 0), dim=1)
 
         assert result == (-1, 0, 0)
 
@@ -127,7 +127,7 @@ class TestFastDual:
         fast = FastDual(split=False)
 
         # e0 * (eps*e0) = eps*e0
-        result = fast.multiply((1, 0), (1, 2), dim=1)
+        result = fast.multiply((1, 0, 0), (1, 0,1), dim=1)
 
         assert result == (1, 0, 1)
 
@@ -137,7 +137,7 @@ class TestFastDual:
         # local tuple: (sign, local_index, eps_flag)
         eps_e0 = (1, 0, 1)
 
-        result = fast.multiply((1, 0), eps_e0, dim=1)
+        result = fast.multiply((1, 0, 0), eps_e0, dim=1)
 
         assert result == (1, 0, 1)
 
@@ -151,10 +151,20 @@ class TestFastDual:
             signs, indices, eps = builder.build(dim, split=split)
 
             total = 1 << (dim + 1)
-
+            half = 1 << (dim)
             for i in range(total):
                 for j in range(total):
-                    s, idx, e = fast.multiply_indices(i, j, dim)
+                    i_eps=0
+                    j_eps=0
+                    a = i
+                    b = j
+                    if(i>half-1):
+                        a= i - half
+                        i_eps=1
+                    if(j>half-1):
+                        b= j - half
+                        j_eps = 1
+                    s, idx, e = fast.multiply_indices(a, b, dim,i_eps,j_eps)
 
                     assert int(signs[i, j]) == s, \
                         f"Dual O(1) sign mismatch split={split}, ({i},{j})"
@@ -179,19 +189,19 @@ class TestFacadefast:
         assert multiply("split", (1, 1), (1, 1), dim=1, engine="fast") == (1, 0)
 
     def test_dual(self):
-        result = multiply("dual", (1, 1), (1, 1), dim=1, engine="fast")
+        result = multiply("dual", (1, 1, 0), (1, 1, 0), dim=1, engine="fast")
         assert result == (-1, 0, 0)
 
     def test_dual_local_tuple_chaining(self):
         # eps*e0 as local tuple
         eps_e0 = (1, 0, 1)
 
-        result = multiply("dual", (1, 0), eps_e0, dim=1, engine="fast")
+        result = multiply("dual", (1, 0, 0), eps_e0, dim=1, engine="fast")
 
         assert result == (1, 0, 1)
 
         # Now reuse result directly
-        result2 = multiply("dual", result, (1, 0), dim=1, engine="fast")
+        result2 = multiply("dual", result, (1, 0, 0), dim=1, engine="fast")
 
         assert result2 == (1, 0, 1)
 

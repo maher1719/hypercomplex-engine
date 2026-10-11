@@ -54,12 +54,12 @@ class Validation:
         if not isinstance(data, tuple):
             raise TypeError(f"Expected tuple, got {type(data).__name__}")
 
-        if len(data) not in (2, 3):
-            raise ValueError(f"Basis tuple must have length 2 or 3, got {len(data)}")
-
-        if len(data) == 3 and not allow_eps:
-            raise ValueError("3-tuple epsilon form is not allowed here")
-        
+        if allow_eps:
+            if len(data) != 3:
+                raise ValueError(f"Dual basis tuple must have length 3 (sign, index, eps), got {len(data)}")
+        else:
+            if len(data) != 2:
+                raise ValueError(f"Standard/Split basis tuple must have length 2 (sign, index), got {len(data)}")
 
         sign = data[0]
         index = data[1]
