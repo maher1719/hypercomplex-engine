@@ -4,7 +4,7 @@ This document outlines the formal performance metrics, scaling boundaries, and s
 
 
 
-By bypassing traditional exponential O(4^n) lookup tables and introducing a dual-engine architecture powered by **closed-form O(1) bitwise sign laws** and **logarithmic O(log n) recursive block-descent structural parsing**, this library removes the physical memory and execution walls historically associated with high-dimensional Cayley–Dickson algebras.
+By bypassing traditional exponential O(4^n) lookup tables and introducing a dual-engine architecture powered by **closed-form O(1) bitwise sign laws** and **logarithmic O(n) recursive block-descent structural parsing** where n is the dimension number 2^n, this library removes the physical memory and execution walls historically associated with high-dimensional Cayley–Dickson algebras.
 
 ---
 
@@ -27,7 +27,7 @@ By bypassing traditional exponential O(4^n) lookup tables and introducing a dual
 | Engine / Methodology | Computational Complexity | Memory Complexity | Scalability Boundaries |
 | :--- | :--- | :--- | :--- |
 | **Traditional Matrix Lookup** | O(1) (after generation) | O(4^n) (Exponential) | Hard wall at n = 13 (8,192 Dim) due to RAM limits |
-| **Holographic Engine (`holo`)** | O(log n) (Logarithmic) | O(1) (Constant) | Infinite (Optimized for 2^k structural boundaries) |
+| **Holographic Engine (`holo`)** | O(n) (Logarithmic n is dimension number 2^n) | O(1) (Constant) | Infinite (Optimized for 2^k structural boundaries) |
 | **Fast Bitwise Engine (`fast`)** | O(1) (Constant) | O(1) (Constant) | Infinite (Optimized for dense/extreme scale bignums) |
 
 ---
