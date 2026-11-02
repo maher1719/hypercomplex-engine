@@ -29,6 +29,8 @@ from .core import (
     FastStandard,
     FastSplit,
     FastDual,
+
+    VectorizedStandard
 )
 
 from .printer import (
@@ -64,6 +66,9 @@ __all__ = [
     "FastStandard",
     "FastSplit",
     "FastDual",
+
+    #VectorizedStandard
+    "VectorizedStandard"
 
     # Printer / formatter
     "CDFormat",

@@ -20,6 +20,10 @@ from .fast import (
     FastDual,
 )
 
+from .vectorized import (
+    VectorizedStandard
+)
+
 __all__ = [
     "BasisElement",
     "BasisNotation",
@@ -36,4 +40,6 @@ __all__ = [
     "FastStandard",
     "FastSplit",
     "FastDual",
+
+    "VectorizedStandard",
 ]

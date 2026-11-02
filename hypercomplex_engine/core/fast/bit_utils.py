@@ -17,4 +17,6 @@ def popcount(x: int) -> int:
     """
     Number of set bits.
     """
-    return int(x).bit_count()
+    x=int(x)
+    return x.bit_count() if hasattr(x, "bit_count") else bin(x).count("1")
+    
