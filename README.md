@@ -17,9 +17,11 @@ This library provides the computational substrate for high-dimensional hypercomp
 - **Full multiplication table generation** for standard, split, and dual algebras.
 - **O(n) holographic** table-free recursive descent multiplication.
 - **O(1) fast bitwise** closed-form multiplication.
+- **Version 0.6** Added **vectorized numpy** for standard hypercomplex!
 - **Integer, graded, and LaTeX** notation formatting.
 - **CSV export** for tables (matrix and long formats).
 - A **simple facade API** for everyday use, and direct low-level classes for advanced physics/math engines.
+
 
 ---
 
