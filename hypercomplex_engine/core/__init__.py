@@ -24,6 +24,15 @@ from .vectorized import (
     VectorizedStandard
 )
 
+from .bitplane import (
+ BitPlaneStandard
+)
+
+
+from .graded import (
+    GradedSparseStandard
+)
+
 __all__ = [
     "BasisElement",
     "BasisNotation",
@@ -42,4 +51,8 @@ __all__ = [
     "FastDual",
 
     "VectorizedStandard",
+
+    "BitPlaneStandard"
+
+    "GradedSparseStandard"
 ]
