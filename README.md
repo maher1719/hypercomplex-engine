@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="hypercomplex_engine/asset/logo.jpeg" alt="Project Banner" width="100%">
+  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/logo.jpeg" alt="Project Banner" width="100%">
 </p>
 
 # hypercomplex-engine
@@ -23,6 +23,10 @@ This library provides the computational substrate for high-dimensional hypercomp
 - **O(n) holographic** table-free recursive descent multiplication.
 - **O(1) fast bitwise** closed-form multiplication.
 - **Version 0.6** Added **vectorized numpy** for standard hypercomplex!
+- Version 0.7 Added arbitrary-width engines that break the 64-bit SIMD ceiling:
+  **BitPlaneStandard** (bit-sliced) and **GradedSparseStandard** (graded-sparse,
+  memory-optimal via Wilmot graded notation). Both cross-validated against the
+  proven O(1) evaluator at widths up to 10,000 bits.
 - **Integer, graded, and LaTeX** notation formatting.
 - **CSV export** for tables (matrix and long formats).
 - A **simple facade API** for everyday use, and direct low-level classes for advanced physics/math engines.
@@ -449,6 +453,48 @@ print(result)
 ```
 
 ---
+
+### Arbitrary-width engines (breaking the 64-bit ceiling)
+
+The scalar `fast` and `holographic` engines support arbitrary precision natively
+(Python big integers), but the **vectorized** engine is capped at 64 bits because
+SIMD lanes are fixed-width. Version 0.7 adds two arbitrary-width engines that
+remove this ceiling:
+
+| Engine | Cost | Memory | Best for |
+| --- | --- | --- | --- |
+| `BitPlaneStandard` | O(B) per pair, O(N·B/L) batch | O(N·B) | dense arbitrary-width batches |
+| `GradedSparseStandard` | O(p) per pair, O(N·p) batch | O(N·p) | sparse arbitrary-width indices (p ≪ B) |
+
+Here `B` is the bit-width and `p` is the number of set bits (popcount). For the
+sparse indices typical of symbolic and zero-divisor workloads, `GradedSparse`
+is memory-optimal because its cost scales with the information content `p`,
+not the ambient width `B`.
+
+**BitPlaneStandard** (bit-sliced):
+```python
+from hypercomplex_engine import BitPlaneStandard
+
+bp = BitPlaneStandard()
+# Indices wider than 64 bits — impossible for np.uint64, fine here
+i_arr = [2**200 + 5, 2**300, 7]
+j_arr = [3, 2**150, 2**100]
+signs, indices = bp.multiply_indices(i_arr, j_arr)
+# signs[k] in {-1, +1}, indices[k] = i_arr[k] ^ j_arr[k]
+```
+
+```python
+from hypercomplex_engine import GradedSparseStandard
+
+gs = GradedSparseStandard()
+sign, idx = gs.multiply_indices(2**1000 + 3, 5)
+
+# Graded (Wilmot) notation: generator levels, o_k = bit position k-1
+print(gs.graded_to_notation(gs.int_to_graded(idx)))  # e.g. "o1,2,1001"
+```
+
+
+
 
 ## Formatting modes
 
@@ -962,50 +1008,51 @@ The test suite validates:
 # Repository Structure
 
 ```text
-hypercomplex-engine/
-├── examples/
-│   ├── direct_implementation/
-│   │   └── full_table_builder_simple.py
-│   └── uses/
-│       ├── outputs/
-│       └── use.ipynb
-├── hypercomplex/
-│   ├── core/
-│   │   ├── basis_element.py
-│   │   ├── basis_notation.py
-│   │   ├── validation.py
-│   │   ├── table_builder/
-│   │   │   ├── common.py
-│   │   │   ├── standard.py
-│   │   │   ├── split.py
-│   │   │   └── dual.py
-│   │   ├── holographic/
-│   │   │   ├── standard.py
-│   │   │   ├── split.py
-│   │   │   └── dual.py
-│   │   └── fast/
-│   │       ├── bit_utils.py
-│   │       ├── fast_standard.py
-│   │       ├── fast_split.py
-│   │       └── fast_dual.py
-│   ├── printer/
-│   │   ├── cd_format.py
-│   │   └── cd_table_printer.py
-│   ├── facade.py
-│   └── __init__.py
-├── tests/
-│   ├── test_algebra.py
-│   ├── test_fast_mode.py
-│   ├── test_holographic_vs_table.py
-│   └── test_mega_mother.py
-├── LICENSE
-├── README.md
-└── pyproject.toml
+hypercomplex_engine
+├── asset
+│   ├── logo.jpeg
+│   └── logo.svg
+├── core
+│   ├── basis_element.py
+│   ├── basis_notation.py
+│   ├── bitplane
+│   │   ├── bitplane_standard.py
+│   │   └── __init__.py
+│   ├── fast
+│   │   ├── bit_utils.py
+│   │   ├── fast_dual.py
+│   │   ├── fast_split.py
+│   │   ├── fast_standard.py
+│   │   └── __init__.py
+│   ├── graded
+│   │   ├── graded_sparse_standard.py
+│   │   └── __init__.py
+│   ├── holographic
+│   │   ├── dual.py
+│   │   ├── __init__.py
+│   │   ├── split.py
+│   │   └── standard.py
+│   ├── __init__.py
+│   ├── table_builder
+│   │   ├── common.py
+│   │   ├── dual.py
+│   │   ├── __init__.py
+│   │   ├── split.py
+│   │   └── standard.py
+│   ├── validation.py
+│   └── vectorized
+│       ├── __init__.py
+│       └── vectorized_standard.py
+├── facade.py
+├── __init__.py
+└── printer
+    ├── cd_format.py
+    ├── cd_table_printer.py
+    └── __init__.py
 ```
 
 # Scope, strengths and limitations
 
-> **Status: 0.4.x, pre-1.0.** The API can still change. Read this section before building on the package.
 
 ## What this package is
 
@@ -1085,6 +1132,24 @@ Use `estimate_table_bytes(kind, n)` to check a size, and pass a larger `max_byte
 - Do not treat the package as 1.0-stable until it has been used by futur a palnned package the vector-and-expression package.
 
 ---
+
+
+---
+
+## Summary of What's New (for your own tracking)
+
+| Addition | Where |
+| :--- | :--- |
+| Version 0.7 announcement | Features list |
+| Arbitrary-width engines section + examples | Intermediate Use |
+| Expanded complexity table (BitPlane, GradedSparse) | Complexity |
+| New directories (`bitplane/`, `graded/`) | Repository Structure |
+| New test files | Testing |
+| New imports | Advanced Use |
+
+Once you paste these in, the README will reflect the **complete engine family**: table builder → holographic O(n) → fast O(1) → vectorized (≤64-bit) → **BitPlane + GradedSparse (arbitrary-width)**. That's the full arc of the paper, now mirrored in the package docs.
+
+Want me to also draft a short **"What's New in 0.7"** changelog block for the very top, or update the **Citation** block to point at the revised preprint? 
 
 # Citation
 

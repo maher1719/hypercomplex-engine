@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypercomplex-engine" 
-version = "0.6.0.1"
+version = "0.7.1.2"
 authors = [
   { name="Maher Ben Abdessalem", email="ba.maher94@gmail.com" },
 ]
@@ -45,4 +45,14 @@ classifiers = [
 [tool.setuptools.packages.find]
 include = ["hypercomplex_engine*"]
 exclude = ["tests*", "examples*"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "**/__pycache__",
+]
+
+[tool.hatch.build.targets.wheel]
+exclude = [
+  "**/__pycache__",
+]
 
