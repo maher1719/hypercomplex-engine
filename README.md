@@ -44,7 +44,7 @@ If you build upon this package, please read fully [Go to Scope, Strengths, and L
 This library serves as the formal verification substrate and computational engine for the following mathematical preprints:
 
 **1. The Sign Structure of Cayley–Dickson and Split Algebras By Blocks**
-*Proves the OPMT (Ordered-Pair Multiplication Table) sign laws, block decomposition, and the O(1) closed-form sign evaluator implemented in the `fast` engine of this library.*
+*Proves the OPMT (Observed Patterns in Multiplication Table) sign laws, block decomposition, and the O(1) closed-form sign evaluator implemented in the `fast` engine of this library.*
 * 📊 **Figshare:** [10.6084/m9.figshare.33705022](https://doi.org/10.6084/m9.figshare.33705022)
 * 📦 **Zenodo:** [10.5281/zenodo.22051873](https://doi.org/10.5281/zenodo.22051873)
 
