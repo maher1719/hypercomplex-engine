@@ -67,6 +67,48 @@ This library serves as the formal verification substrate and computational engin
   <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/github_version.jpeg" alt="Flowchart of the construction" width="100%">
 </p>
 
+<details>
+<summary>📊 <b>Click to view the Construction Flowchart (Vector SVG)</b></summary>
+<br>
+
+```mermaid
+
+flowchart TD
+    Start([Input: Target N ≥ 0]) --> Init["A₀ Real Numbers (n = 0)"]
+    Init --> CheckN0{"Target N = 0?"}
+
+    CheckN0 -- Yes --> AddEps0{"Add ε?"}
+    CheckN0 -- No --> AddL["Add new imaginary unit 'l'"]
+
+    AddEps0 -- Yes --> DualReal["Dual Real Numbers ℝ[ε]"]
+    AddEps0 -- No --> MergeTop(( ))
+    DualReal --> MergeTop
+    MergeTop --> EndTop([End])
+
+    AddL --> IsSplit{"Is it split?"}
+    IsSplit -- Yes --> SplitHyp["Split Hypercomplex Aₙ₊₁<br/>(Set Split = True)"]
+    IsSplit -- No --> OrdHyp["Ordinary Hypercomplex Aₙ₊₁"]
+
+    SplitHyp --> MergeMid(( ))
+    OrdHyp --> MergeMid
+
+    MergeMid --> AddEps{"Add ε?"}
+    AddEps -- Yes --> DualHyp["Dual Hypercomplex Numbers<br/>Aₙ₊₁[ε]"]
+    AddEps -- No --> CheckEnd{"Split, or Reached<br/>Target Dimension (n + 1 = N)?"}
+
+    DualHyp --> MergeBot(( ))
+    CheckEnd -- Yes --> MergeBot
+    CheckEnd -- No --> IncLoop["Aₙ = Aₙ₊₁<br/>n = n + 1"]
+    IncLoop --> AddL
+
+    MergeBot --> EndBot([End])
+
+
+```
+
+</details>
+
+
 ## Installation
 
 Clone the repository:
