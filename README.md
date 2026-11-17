@@ -61,6 +61,12 @@ This library serves as the formal verification substrate and computational engin
 
 ---
 
+## Flowchart of the applied Construction
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/github_version.jpeg" alt="Flowchart of the construction" width="100%">
+</p>
+
 ## Installation
 
 Clone the repository:
