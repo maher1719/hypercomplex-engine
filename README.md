@@ -64,7 +64,7 @@ This library serves as the formal verification substrate and computational engin
 ## Flowchart of the applied Construction
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/github_version.jpeg" alt="Flowchart of the construction" width="100%">
+  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/flowchart_github_version.jpeg" alt="Flowchart of the construction" width="100%">
 </p>
 
 <details>
@@ -86,7 +86,7 @@ flowchart TD
     MergeTop --> EndTop([End])
 
     AddL --> IsSplit{"Is it split?"}
-    IsSplit -- Yes --> SplitHyp["Split Hypercomplex Aₙ₊₁<br/>(Set Split = True)"]
+    IsSplit -- Yes --> SplitHyp["Split Hypercomplex Aₙ₊₁<br/>(Set IsSplit = True)"]
     IsSplit -- No --> OrdHyp["Ordinary Hypercomplex Aₙ₊₁"]
 
     SplitHyp --> MergeMid(( ))
@@ -94,7 +94,7 @@ flowchart TD
 
     MergeMid --> AddEps{"Add ε?"}
     AddEps -- Yes --> DualHyp["Dual Hypercomplex Numbers<br/>Aₙ₊₁[ε]"]
-    AddEps -- No --> CheckEnd{"Split, or Reached<br/>Target Dimension (n + 1 = N)?"}
+    AddEps -- No --> CheckEnd{"IsSplit, or Reached<br/>Target Dimension (n + 1 = N)?"}
 
     DualHyp --> MergeBot(( ))
     CheckEnd -- Yes --> MergeBot
