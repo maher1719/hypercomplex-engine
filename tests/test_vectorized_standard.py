@@ -2,6 +2,8 @@ import numpy as np
 import pytest
 import time
 
+
+import hypercomplex_engine
 from hypercomplex_engine.core.fast.fast_standard import FastStandard
 from hypercomplex_engine.core.vectorized.vectorized_standard import VectorizedStandard
 
@@ -9,6 +11,15 @@ from hypercomplex_engine.core.vectorized.vectorized_standard import VectorizedSt
 def engines():
     return FastStandard(), VectorizedStandard()
 
+
+
+
+def pytest_report_header(config):
+    version = getattr(hypercomplex, "__version__", "unknown")
+    return [
+        f"hypercomplex location: {hypercomplex.__file__}",
+        f"hypercomplex version:  {version}",
+    ]
 # =============================================================================
 # 1. THE MILLION-PAIR GAUNTLET (Indices Accuracy)
 # =============================================================================
