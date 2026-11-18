@@ -205,7 +205,8 @@ class TestBoundaryConditions:
     def test_max_uint64(self, fast, vec):
         """Indices near 2^64 - 1 must not overflow."""
         max_val = np.uint64(2**64 - 1)
-        i = np.array([max_val, max_val - 1, max_val ^ 1], dtype=np.uint64)
+        one = np.uint64(1)
+        i = np.array([max_val, max_val - one, max_val ^ one], dtype=np.uint64)
         j = np.array([1, max_val, 2], dtype=np.uint64)
 
         v_signs, v_idxs = vec.multiply_indices_vec(i, j)
