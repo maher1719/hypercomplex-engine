@@ -22,6 +22,7 @@ This library provides the computational substrate for high-dimensional hypercomp
 - **Full multiplication table generation** for standard, split, and dual algebras.
 - **O(n) holographic** table-free recursive descent multiplication.
 - **O(1) fast bitwise** closed-form multiplication.
+- **Second O(1) multiplier for standard** based on ([earlier preprint](https://osf.io/preprints/osf/byqfw_v3) sign compression/decompression, (could be found here [here](https://github.com/maher1719/hypercomplex-engine/blob/main/examples/Verifications/verification_compression_decompression.ipynb)). It is specific to standard hypercomplex only.
 - **Version 0.6** Added **vectorized numpy** for standard hypercomplex!
 - Version 0.7 Added arbitrary-width engines that break the 64-bit SIMD ceiling:
   **BitPlaneStandard** (bit-sliced) and **GradedSparseStandard** (graded-sparse,
