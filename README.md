@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/logo.jpeg" alt="Project Banner" width="100%">
+  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/asset/logo.jpeg" alt="Project Banner" width="100%">
 </p>
 
 # hypercomplex-engine
@@ -65,7 +65,7 @@ This library serves as the formal verification substrate and computational engin
 ## Flowchart of the applied Construction
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/hypercomplex_engine/asset/flowchart_github_version.jpeg" alt="Flowchart of the construction" width="100%">
+  <img src="https://raw.githubusercontent.com/maher1719/hypercomplex-engine/refs/heads/main/asset/flowchart_github_version.jpeg" alt="Flowchart of the construction" width="100%">
 </p>
 
 <details>
