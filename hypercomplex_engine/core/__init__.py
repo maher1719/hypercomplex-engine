@@ -52,7 +52,7 @@ __all__ = [
 
     "VectorizedStandard",
 
-    "BitPlaneStandard"
+    "BitPlaneStandard",
 
     "GradedSparseStandard"
 ]
