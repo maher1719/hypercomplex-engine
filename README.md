@@ -1199,7 +1199,6 @@ Use `estimate_table_bytes(kind, n)` to check a size, and pass a larger `max_byte
 
 Once you paste these in, the README will reflect the **complete engine family**: table builder → holographic O(n) → fast O(1) → vectorized (≤64-bit) → **BitPlane + GradedSparse (arbitrary-width)**. That's the full arc of the paper, now mirrored in the package docs.
 
-Want me to also draft a short **"What's New in 0.7"** changelog block for the very top, or update the **Citation** block to point at the revised preprint? 
 
 # Citation
 
